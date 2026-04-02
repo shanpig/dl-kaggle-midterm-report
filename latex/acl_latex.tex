@@ -73,15 +73,16 @@ applied.
 
 \section{Model Description}
 
-We implemented a deep learning model to address the task, starting from a
-baseline architecture and iteratively improving it.
-
-Our approach focuses on leveraging neural network architectures that can
-effectively capture patterns in the data. We experimented with different
-configurations to balance model capacity and training efficiency.
-
-The model design was guided by the need for strong performance while keeping
-training time manageable.
+We build on the Qwen2.5 series as our base model family, which provides
+strong general-purpose capabilities and a range of parameter sizes suitable
+for experimentation on limited hardware. For this task we chose the 
+Qwen/Qwen2.5-Coder-XB-Instruct variants because they are optimized for code-oriented
+reasoning and instruction-following behavior, aligning well with the
+debugging, code-related structured output, and prompt-driven workflow required by the
+competition setting. We initially evaluated 1.5B, 3B, and 7B parameter
+models; however, the 7B version consistently pushed GPU memory to near
+out-of-memory limits, so we ultimately standardized on 3B and 1.5B models as the
+best balance between capacity and stable training/inference.
 
 \section{Experimentation}
 

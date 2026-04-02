@@ -1,0 +1,15 @@
+experiment,model_name,max_seq_length,lora_r,lora_alpha,learning_rate,num_train_epochs,per_device_train_batch_size,per_device_eval_batch_size,gradient_accumulation_steps,target_samples,private_score,public_score,platform
+starter/1536 (starter-notebook-1536.py),Qwen/Qwen2.5-1.5B-Instruct,1536,16,16,0.0002,1,1,1,8,12000,8.42524,11.11991,AMD MI100 * 2
+starter/2048 (starter-notebook-2048.py),Qwen/Qwen2.5-1.5B-Instruct,2048,16,16,0.0002,1,1,1,8,12000,8.42524,11.11991,AMD MI100 * 2
+starter/2048-r32 (starter-notebook-2048-r32.py),Qwen/Qwen2.5-1.5B-Instruct,2048,32,64,0.0002,1,1,1,8,12000,8.42524,11.11991,AMD MI100 * 2
+starter/2048-r32-24000 (starter-notebook-2048-r32-24000.py),Qwen/Qwen2.5-1.5B-Instruct,2048,32,64,0.0002,1,1,1,8,24000,8.42524,11.11991,AMD MI100 * 2
+starter/2048-r32-36000 (starter-notebook-2048-r32-36000.py),Qwen/Qwen2.5-1.5B-Instruct,2048,32,64,0.0002,1,1,1,8,36000,8.42524,11.11991,AMD MI100 * 2
+2gpu version,unsloth/Qwen2.5-3B-Instruct-bnb-4bit,2048,16,16,0.0002,1,1,,4,,7.27635,9.65655,"Kaggle notebook, NVIDIA T4 * 2"
+2gpu-version-batch2,unsloth/Qwen2.5-3B-Instruct-bnb-4bit,2048,32,16,0.0002,1,2,,4,,,"Kaggle notebook, NVIDIA T4 * 2"
+2gpu-version-batch2-with-prompt,unsloth/Qwen2.5-3B-Instruct-bnb-4bit,2048,32,16,0.0002,1,2,,4,,,"Kaggle notebook, NVIDIA T4 * 2"
+2gpu-version-batch32-2xlr-step4,unsloth/Qwen2.5-3B-Instruct-bnb-4bit,2048,32,16,0.0004,2,4,,4,,,"Kaggle notebook, NVIDIA T4 * 2"
+3072-17hrs,unsloth/Qwen2.5-Coder-3B-Instruct,3072,16,64,0.0002,3,4,1,4,20000,10.77991,13.11993,AMD MI100 * 2
+1gpu version (will not use),unsloth/qwen2.5-3b-instruct-bnb-4bit,,16,16,,,,,,,,"Kaggle notebook, NVIDIA T4 * 2"
+2gpu-version-with-prompt-only-train (will not use),unsloth/Qwen2.5-3B-Instruct-bnb-4bit,2048,32,16,0.0002,1,2,,4,,,"Kaggle notebook, NVIDIA T4 * 2"
+2gpu-version-add-train-data (will not use),unsloth/Qwen2.5-3B-Instruct-bnb-4bit,2048,16,16,0.0002,1,1,,4,,,"Kaggle notebook, NVIDIA T4 * 2"
+3072-6hrs-3epochs (will not use),unsloth/Qwen2.5-Coder-3B-Instruct,3072,16,64,0.0002,3,4,1,4,20000,,,AMD MI100 * 2
