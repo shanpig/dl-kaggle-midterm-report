@@ -1,0 +1,145 @@
+\documentclass[11pt]{article}
+
+% Change "review" to "final" to generate the final (sometimes called camera-ready) version.
+% Change to "preprint" to generate a non-anonymous version with page numbers.
+\usepackage[review]{acl}
+
+% Standard package includes
+\usepackage{times}
+\usepackage{latexsym}
+
+% For proper rendering and hyphenation of words containing Latin characters (including in bib files)
+\usepackage[T1]{fontenc}
+
+% This assumes your files are encoded as UTF8
+\usepackage[utf8]{inputenc}
+
+% This is not strictly necessary, and may be commented out,
+% but it will improve the layout of the manuscript,
+% and will typically save some space.
+\usepackage{microtype}
+
+% This is also not strictly necessary, and may be commented out.
+% However, it will improve the aesthetics of text in
+% the typewriter font.
+\usepackage{inconsolata}
+
+% Including images in your LaTeX document requires adding
+% additional package(s)
+\usepackage{graphicx}
+\usepackage{url}
+
+\title{Deep Learning Midterm Project Report}
+
+\author{[Your Name] \\
+  New York University \\
+  ECE-GY 7123 Deep Learning \\
+  \texttt{[your email]}}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+This report presents our approach to a deep learning task using modern neural
+network methods. We focus on building a competitive model under practical
+training-time constraints, compare multiple configurations, and summarize the
+design and optimization choices that contributed most to performance.
+\end{abstract}
+
+\section{Introduction}
+
+This project focuses on solving a deep learning task using modern neural network
+approaches. The goal is to build a model that achieves strong performance on
+the given dataset while exploring different architectural and training choices.
+
+Due to the computational cost of training, we emphasize iterative
+experimentation and practical improvements over exhaustive search. We evaluate
+different configurations and analyze what contributes most to performance.
+
+\footnote{Code: \url{https://github.com/shanpig/dl-kaggle-midterm}. We used GPT
+and Cursor for debugging and implementation assistance.}
+
+\footnote{Model weights: [ADD YOUR LINK HERE]}
+
+\section{Dataset}
+
+[TO BE FILLED]
+
+We describe the dataset, preprocessing steps, and any augmentation techniques
+applied.
+
+\section{Model Description}
+
+We implemented a deep learning model to address the task, starting from a
+baseline architecture and iteratively improving it.
+
+Our approach focuses on leveraging neural network architectures that can
+effectively capture patterns in the data. We experimented with different
+configurations to balance model capacity and training efficiency.
+
+The model design was guided by the need for strong performance while keeping
+training time manageable.
+
+\section{Experimentation}
+
+We conducted multiple experiments to improve model performance through
+iterative refinement.
+
+\textbf{Hyperparameters:}
+\begin{itemize}
+    \item Learning rate: [fill if known, e.g., 1e-3, 1e-4]
+    \item Batch size: [e.g., 16, 32]
+    \item Number of epochs: [range or estimate]
+\end{itemize}
+
+\textbf{Experimented Variations:}
+\begin{itemize}
+    \item Baseline model configuration
+    \item Adjustments to model architecture
+    \item Different training settings (learning rate, batch size)
+\end{itemize}
+
+Due to long training cycles, we focused on testing a limited number of
+meaningful configurations rather than performing an exhaustive search. We
+prioritized changes that were most likely to impact performance based on
+intuition and prior experience.
+
+\section{Results}
+
+\begin{table}[t]
+    \centering
+    \begin{tabular}{lc}
+        \hline
+        Model & Score \\
+        \hline
+        Baseline & [XX.X] \\
+        Final Model & [XX.X] \\
+        \hline
+    \end{tabular}
+    \caption{Comparison between the baseline and final model performance.}
+\end{table}
+
+The final model achieved improved performance compared to the baseline. We
+observed that tuning hyperparameters, particularly learning rate and model
+configuration, had a noticeable impact on results.
+
+In some cases, increasing model complexity did not yield proportional
+improvements, indicating diminishing returns.
+
+\section{Conclusion}
+
+In this project, we explored different modeling approaches and training
+strategies to improve performance on the task.
+
+We found that careful tuning of hyperparameters and iterative experimentation
+were key to achieving better results. However, training time posed a
+significant constraint, limiting the number of experiments that could be
+conducted.
+
+Some approaches did not lead to improvements, highlighting the importance of
+targeted experimentation rather than blindly increasing complexity.
+
+In future work, we would implement better experiment tracking and explore more
+efficient training methods to allow broader exploration of the design space.
+
+\end{document}
