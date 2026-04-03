@@ -115,7 +115,55 @@ initial 3B configuration, we increased LoRA rank and per-device batch size to
 better utilize the available GPU resources and improve training throughput. We
 then introduced a more explicit system prompt containing SVG-specific rules to
 test whether stronger task guidance improved both training behavior and
-inference quality. In a later Kaggle variant, we further increased the
+inference quality. For reference, Table~\ref{tab:prompt} shows the system
+prompt used in the \texttt{2gpu-version-batch2-with-prompt} experiment.
+\begin{table*}[t]
+\centering
+\begin{minipage}{0.96\textwidth}
+\footnotesize
+\begin{verbatim}
+You are an expert SVG generator.
+
+Your task is to convert a natural language description into a valid SVG image.
+
+STRICT REQUIREMENTS:
+- Output ONLY valid SVG XML
+- Output must start with <svg and end with </svg>
+- No explanations, no markdown, no extra text
+- Use ONLY these tags: svg, g, path, rect, circle, ellipse, line, polyline,
+  polygon
+- Maximum 256 path elements
+- Canvas size must be exactly 256x256
+- All tags must be properly closed
+- All attribute values must use double quotes
+- No comments, no style tags, no scripts
+
+SVG STRUCTURE:
+- Always include: width="256" height="256"
+  viewBox="0 0 256 256"
+  xmlns="http://www.w3.org/2000/svg"
+- Use simple, clean shapes
+- Prefer basic geometric primitives when possible
+- Ensure elements are visible within the canvas
+
+OUTPUT FORMAT:
+<svg width="256" height="256"
+viewBox="0 0 256 256"
+xmlns="http://www.w3.org/2000/svg">
+  <!-- SVG content -->
+</svg>
+
+DESCRIPTION:
+{PROMPT}
+
+Generate the SVG now.
+\end{verbatim}
+\end{minipage}
+\caption{System prompt used in the \texttt{2gpu-version-batch2-with-prompt}
+experiment.}
+\label{tab:prompt}
+\end{table*}
+After introducing this prompt-guided variant, we further increased the
 per-device batch size, doubled the learning rate, and doubled the number of
 training epochs in order to test a more aggressive optimization setup while
 remaining within the platform's memory constraints.
@@ -125,15 +173,20 @@ for longer and more resource-intensive runs. We therefore returned to the AMD
 platform, this time using a two-GPU setup for our final high-capacity
 experiment. In this last stage, we increased the maximum sequence length to
 3072 and switched to Qwen2.5-Coder-3B-Instruct, while also lowering the LoRA
-rank, increasing the LoRA scaling factor, and training for more epochs. This
-configuration was intended to combine longer context, stronger code-oriented
-reasoning, and a more stable training environment for extended runs. The
-switch to the coder-specialized model was motivated by the observation that
-SVG generation is fundamentally a structured markup task, so a model with a
-stronger bias toward code-like syntax and constrained output was a better fit
-than a general instruction-tuned alternative. We again set the evaluation
-batch size to 1 in this final AMD-based configuration for the same reason: to
-reduce evaluation-time memory pressure and avoid out-of-memory interruptions.
+rank, increasing the LoRA scaling factor, and training for more epochs. We
+also reduced the set of LoRA target modules from the broader seven-module
+configuration used in earlier runs to the four attention projections
+(\texttt{q\_proj}, \texttt{k\_proj}, \texttt{v\_proj}, and
+\texttt{o\_proj}) in order to reduce LoRA-related memory and optimization
+overhead. This configuration was intended to combine longer context, stronger
+code-oriented reasoning, and a more stable training environment for extended
+runs. The switch to the coder-specialized model was motivated by the
+observation that SVG generation is fundamentally a structured markup task, so
+a model with a stronger bias toward code-like syntax and constrained output
+was a better fit than a general instruction-tuned alternative. We again set
+the evaluation batch size to 1 in this final AMD-based configuration for the
+same reason: to reduce evaluation-time memory pressure and avoid
+out-of-memory interruptions.
 
 \begin{table*}[t]
     \centering

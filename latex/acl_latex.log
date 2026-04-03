@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.9.4)  2 APR 2026 23:20
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.9.4)  2 APR 2026 23:38
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -416,12 +416,19 @@ Underfull \hbox (badness 3375) in paragraph at lines 91--109
 
 
 ]
-Underfull \hbox (badness 1769) in paragraph at lines 110--122
+LaTeX Font Info:    Font shape `T1/zi4/m/n' will be
+(Font)              scaled to size 10.95pt on input line 119.
+LaTeX Font Info:    Font shape `T1/zi4/m/n' will be
+(Font)              scaled to size 9.0pt on input line 124.
+LaTeX Font Info:    Font shape `T1/zi4/m/n' will be
+(Font)              scaled to size 10.0pt on input line 163.
+
+Underfull \hbox (badness 1769) in paragraph at lines 110--170
 []\T1/ptm/m/n/10.95 (+20) We there-fore shifted to Kag-gle's NVIDIA
  []
 
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 159.
+(Font)              <7> on input line 212.
 
 
 
@@ -432,7 +439,7 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 
 [3
 
-] (./acl_latex.aux)
+] [4] (./acl_latex.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
@@ -441,18 +448,18 @@ Package rerunfilecheck Info: File `acl_latex.out' has not changed.
 (rerunfilecheck)             Checksum: DD740B4640B1B0B6CB332AAD07FC315C;601.
  ) 
 Here is how much of TeX's memory you used:
- 14014 strings out of 473190
- 225568 string characters out of 5715801
- 677762 words of memory out of 5000000
- 36899 multiletter control sequences out of 15000+600000
- 596921 words of font info for 188 fonts, out of 8000000 for 9000
+ 14038 strings out of 473190
+ 225954 string characters out of 5715801
+ 681862 words of memory out of 5000000
+ 36918 multiletter control sequences out of 15000+600000
+ 597975 words of font info for 193 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 90i,10n,93p,1118b,500s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 90i,10n,93p,1118b,504s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/inconsolata/Inconsolata-zi4r.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/times/utmr8a.pfb>
-Output written on acl_latex.pdf (3 pages, 89303 bytes).
+Output written on acl_latex.pdf (4 pages, 100409 bytes).
 PDF statistics:
- 97 PDF objects out of 1000 (max. 8388607)
- 77 compressed objects within 1 object stream
- 14 named destinations out of 1000 (max. 500000)
- 41521 words of extra memory for PDF output out of 42996 (max. 10000000)
+ 103 PDF objects out of 1000 (max. 8388607)
+ 82 compressed objects within 1 object stream
+ 16 named destinations out of 1000 (max. 500000)
+ 43057 words of extra memory for PDF output out of 51595 (max. 10000000)
 
