@@ -151,6 +151,42 @@ the evaluation batch size to 1 in this final AMD-based configuration for the
 same reason: to reduce evaluation-time memory pressure and avoid
 out-of-memory interruptions.
 
+\subsection{Prompt Design Analysis}
+
+In addition to the main training experiments, we conducted a separate prompt
+design study to understand how different system-prompt formulations affect SVG
+generation behavior. This study was performed independently from the main
+training progression and treated prompt engineering as an isolated design
+dimension. We compared three prompt families: a short baseline prompt used in
+the starter and early 2GPU runs, a stricter SVG-rule prompt that explicitly
+enumerated formatting and tag constraints, and a later compacted
+designer-oriented prompt that retained the most important structural
+constraints while reducing prompt length.
+
+The qualitative examples from this study, shown in
+Figure~\ref{fig:prompt-analysis}, suggest that some degree of restriction is
+helpful for encouraging valid and structurally consistent SVG output,
+especially for simple geometric prompts. However, the same study also showed
+that overly detailed or overly rigid prompt constraints do not automatically
+improve semantic alignment for more complex scenes. In the provided examples,
+the model handled the simple rectangle-based composition reasonably well, but
+it struggled on prompts requiring richer scene understanding, such as the
+landscape and the multi-object composition with foreground-background
+relationships. This observation informed our later prompt design choices: we
+kept the most important structural constraints, but avoided continuously
+expanding the prompt with additional detailed rules that could over-constrain
+generation.
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=\columnwidth]{../PromptAnalysis.png}
+    \caption{Qualitative prompt-analysis examples provided as a separate
+    exploratory study. The examples suggest that prompt restriction can help
+    simple geometric cases while remaining insufficient for more complex
+    semantic compositions.}
+    \label{fig:prompt-analysis}
+\end{figure}
+
 \section{Results}
 
 The results in Table~\ref{tab:experiments} show a clear progression across the
