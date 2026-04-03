@@ -117,56 +117,19 @@ then introduced a more explicit system prompt containing SVG-specific rules to
 test whether stronger task guidance improved both training behavior and
 inference quality. For reference, Table~\ref{tab:prompt} shows the system
 prompt used in the \texttt{2gpu-version-batch2-with-prompt} experiment.
-\begin{table*}[t]
-\centering
-\begin{minipage}{0.96\textwidth}
-\footnotesize
-\begin{verbatim}
-You are an expert SVG generator.
-
-Your task is to convert a natural language description into a valid SVG image.
-
-STRICT REQUIREMENTS:
-- Output ONLY valid SVG XML
-- Output must start with <svg and end with </svg>
-- No explanations, no markdown, no extra text
-- Use ONLY these tags: svg, g, path, rect, circle, ellipse, line, polyline,
-  polygon
-- Maximum 256 path elements
-- Canvas size must be exactly 256x256
-- All tags must be properly closed
-- All attribute values must use double quotes
-- No comments, no style tags, no scripts
-
-SVG STRUCTURE:
-- Always include: width="256" height="256"
-  viewBox="0 0 256 256"
-  xmlns="http://www.w3.org/2000/svg"
-- Use simple, clean shapes
-- Prefer basic geometric primitives when possible
-- Ensure elements are visible within the canvas
-
-OUTPUT FORMAT:
-<svg width="256" height="256"
-viewBox="0 0 256 256"
-xmlns="http://www.w3.org/2000/svg">
-  <!-- SVG content -->
-</svg>
-
-DESCRIPTION:
-{PROMPT}
-
-Generate the SVG now.
-\end{verbatim}
-\end{minipage}
-\caption{System prompt used in the \texttt{2gpu-version-batch2-with-prompt}
-experiment.}
-\label{tab:prompt}
-\end{table*}
 After introducing this prompt-guided variant, we further increased the
 per-device batch size, doubled the learning rate, and doubled the number of
 training epochs in order to test a more aggressive optimization setup while
-remaining within the platform's memory constraints.
+remaining within the platform's memory constraints. Across the full project,
+we used three prompt families: a short baseline prompt for the starter and
+early 2GPU runs (Table~\ref{tab:prompt-base}), a stricter SVG-rule prompt for
+the \texttt{2gpu-version-batch2-with-prompt} family (Table~\ref{tab:prompt}),
+and a later compacted designer-oriented prompt for the final 3072-token AMD
+experiments (Table~\ref{tab:prompt-designer}). This third prompt was designed
+as a condensed version of the earlier strict SVG-rule prompt: it retained the
+most important structural constraints while reducing prompt length, with the
+goal of preserving task guidance without spending excessive context on
+instruction text.
 
 As the project progressed, Kaggle usage limits became a practical bottleneck
 for longer and more resource-intensive runs. We therefore returned to the AMD
@@ -187,32 +150,6 @@ was a better fit than a general instruction-tuned alternative. We again set
 the evaluation batch size to 1 in this final AMD-based configuration for the
 same reason: to reduce evaluation-time memory pressure and avoid
 out-of-memory interruptions.
-
-\begin{table*}[t]
-    \centering
-    \scriptsize
-    \setlength{\tabcolsep}{3pt}
-    \resizebox{\textwidth}{!}{%
-    \begin{tabular}{l l c c c c c c c c c c c l}
-        \hline
-        Experiment & Model & Max Seq & $r$ & $\alpha$ & LR & Epochs & Train BS & Eval BS & Grad Accum & Target Samples & Score (Private) & Score (Public) & Platform \\
-        \hline
-        starter/1536 & Qwen2.5-1.5B-Instruct & 1536 & 16 & 16 & 2e-4 & 1 & 1 & 1 & 8 & 12000 & 8.42524 & 11.11991 & AMD MI100 \\
-        starter/2048 & Qwen2.5-1.5B-Instruct & 2048 & 16 & 16 & 2e-4 & 1 & 1 & 1 & 8 & 12000 & 8.42524 & 11.11991 & AMD MI100 \\
-        starter/2048-r32 & Qwen2.5-1.5B-Instruct & 2048 & 32 & 64 & 2e-4 & 1 & 1 & 1 & 8 & 12000 & 8.42524 & 11.11991 & AMD MI100 \\
-        starter/2048-r32-24000 & Qwen2.5-1.5B-Instruct & 2048 & 32 & 64 & 2e-4 & 1 & 1 & 1 & 8 & 24000 & 8.42524 & 11.11991 & AMD MI100 \\
-        starter/2048-r32-36000 & Qwen2.5-1.5B-Instruct & 2048 & 32 & 64 & 2e-4 & 1 & 1 & 1 & 8 & 36000 & 8.42524 & 11.11991 & AMD MI100 \\
-        2gpu version & Qwen2.5-3B-Instruct-bnb-4bit & 2048 & 16 & 16 & 2e-4 & 1 & 1 & 8 (default) & 4 & 12000 & 7.27635 & 9.65655 & Kaggle NVIDIA T4 $\times$ 2 \\
-        2gpu-version-batch2 & Qwen2.5-3B-Instruct-bnb-4bit & 2048 & 32 & 16 & 2e-4 & 1 & 2 & 8 (default) & 4 & 12000 & 8.27318 & 10.84663 & Kaggle NVIDIA T4 $\times$ 2 \\
-        2gpu-version-batch2-with-prompt & Qwen2.5-3B-Instruct-bnb-4bit & 2048 & 32 & 16 & 2e-4 & 1 & 2 & 8 (default) & 4 & 12000 & 9.79340 & 12.23749 & Kaggle NVIDIA T4 $\times$ 2 \\
-        2gpu-version-batch32-2xlr-step4 & Qwen2.5-3B-Instruct-bnb-4bit & 2048 & 32 & 16 & 4e-4 & 2 & 4 & 8 (default) & 4 & 12000 & 9.68681 & 11.76432 & Kaggle NVIDIA T4 $\times$ 2 \\
-        3072-17hrs & Qwen2.5-Coder-3B-Instruct & 3072 & 16 & 64 & 2e-4 & 3 & 4 & 1 & 4 & 20000 & 10.77991 & 13.11993 & AMD MI100 $\times$ 2 \\
-        \hline
-    \end{tabular}
-    }
-    \caption{Summary of experiment configurations, training platforms, and Kaggle competition submission scores. Here, $r$ denotes LoRA rank, $\alpha$ denotes LoRA scaling factor, LR denotes learning rate, Train BS denotes per-device training batch size, Eval BS denotes per-device evaluation batch size, Grad Accum denotes gradient accumulation steps, and Target Samples denotes the number of training examples used in that experiment. Score (Private) and Score (Public) refer to the private and public leaderboard scores reported by Kaggle for each submission.}
-    \label{tab:experiments}
-\end{table*}
 
 \section{Results}
 
@@ -260,5 +197,120 @@ targeted experimentation rather than blindly increasing complexity.
 
 In future work, we would implement better experiment tracking and explore more
 efficient training methods to allow broader exploration of the design space.
+
+\begin{table*}[t]
+\centering
+\begin{minipage}{0.96\textwidth}
+\footnotesize
+\begin{verbatim}
+You generate compact, valid SVG markup from user requests.
+Return only SVG code with a single root <svg> element.
+\end{verbatim}
+\end{minipage}
+\caption{Short baseline system prompt used in the starter and early 2GPU
+experiments.}
+\label{tab:prompt-base}
+\end{table*}
+
+\begin{table*}[t]
+\centering
+\begin{minipage}{0.96\textwidth}
+\footnotesize
+\begin{verbatim}
+You are an expert SVG generator.
+
+Your task is to convert a natural language description into a valid SVG image.
+
+STRICT REQUIREMENTS:
+- Output ONLY valid SVG XML
+- Output must start with <svg and end with </svg>
+- No explanations, no markdown, no extra text
+- Use ONLY these tags: svg, g, path, rect, circle, ellipse, line, polyline,
+  polygon
+- Maximum 256 path elements
+- Canvas size must be exactly 256x256
+- All tags must be properly closed
+- All attribute values must use double quotes
+- No comments, no style tags, no scripts
+
+SVG STRUCTURE:
+- Always include: width="256" height="256"
+  viewBox="0 0 256 256"
+  xmlns="http://www.w3.org/2000/svg"
+- Use simple, clean shapes
+- Prefer basic geometric primitives when possible
+- Ensure elements are visible within the canvas
+
+OUTPUT FORMAT:
+<svg width="256" height="256"
+viewBox="0 0 256 256"
+xmlns="http://www.w3.org/2000/svg">
+  <!-- SVG content -->
+</svg>
+
+DESCRIPTION:
+{PROMPT}
+
+Generate the SVG now.
+\end{verbatim}
+\end{minipage}
+\caption{System prompt used in the \texttt{2gpu-version-batch2-with-prompt}
+experiment.}
+\label{tab:prompt}
+\end{table*}
+
+\begin{table*}[t]
+\centering
+\begin{minipage}{0.96\textwidth}
+\footnotesize
+\begin{verbatim}
+You are an expert SVG designer. You generate compact, valid SVG markup
+from user requests. You must strictly adhere to the following constraints:
+1. Return ONLY valid SVG code starting with <svg> and ending with </svg>.
+   Do not include markdown formatting or explanations.
+2. The canvas MUST be exactly 256x256. Your root tag must be:
+   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"
+   width="256" height="256">
+3. Limit the code to a maximum of 8,000 characters and use no more than
+   256 <path> elements.
+4. Use a maximum of 2 decimal places for all numbers and coordinates to
+   keep the code compact.
+5. You are strictly limited to ONLY these allowed tags: svg, g, path,
+   rect, circle, ellipse, line, polyline, polygon, defs, use, symbol,
+   clipPath, mask, linearGradient, radialGradient, stop, text, tspan,
+   title, desc, style, pattern, marker, filter. Do NOT use any
+   hallucinated tags like <rectangle> or <move>.
+\end{verbatim}
+\end{minipage}
+\caption{Designer-oriented system prompt used in the final 3072-token AMD
+experiments.}
+\label{tab:prompt-designer}
+\end{table*}
+
+\begin{table*}[t]
+    \centering
+    \scriptsize
+    \setlength{\tabcolsep}{3pt}
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{l l c c c c c c c c c c c l}
+        \hline
+        Experiment & Model & Max Seq & $r$ & $\alpha$ & LR & Epochs & Train BS & Eval BS & Grad Accum & Target Samples & Score (Private) & Score (Public) & Platform \\
+        \hline
+        starter/1536 & Qwen2.5-1.5B-Instruct & 1536 & 16 & 16 & 2e-4 & 1 & 1 & 1 & 8 & 12000 & 8.42524 & 11.11991 & AMD MI100 \\
+        starter/2048 & Qwen2.5-1.5B-Instruct & 2048 & 16 & 16 & 2e-4 & 1 & 1 & 1 & 8 & 12000 & 8.42524 & 11.11991 & AMD MI100 \\
+        starter/2048-r32 & Qwen2.5-1.5B-Instruct & 2048 & 32 & 64 & 2e-4 & 1 & 1 & 1 & 8 & 12000 & 8.42524 & 11.11991 & AMD MI100 \\
+        starter/2048-r32-24000 & Qwen2.5-1.5B-Instruct & 2048 & 32 & 64 & 2e-4 & 1 & 1 & 1 & 8 & 24000 & 8.42524 & 11.11991 & AMD MI100 \\
+        starter/2048-r32-36000 & Qwen2.5-1.5B-Instruct & 2048 & 32 & 64 & 2e-4 & 1 & 1 & 1 & 8 & 36000 & 8.42524 & 11.11991 & AMD MI100 \\
+        2gpu version & Qwen2.5-3B-Instruct-bnb-4bit & 2048 & 16 & 16 & 2e-4 & 1 & 1 & 8 (default) & 4 & 12000 & 7.27635 & 9.65655 & Kaggle NVIDIA T4 $\times$ 2 \\
+        2gpu-version-batch2 & Qwen2.5-3B-Instruct-bnb-4bit & 2048 & 32 & 16 & 2e-4 & 1 & 2 & 8 (default) & 4 & 12000 & 8.27318 & 10.84663 & Kaggle NVIDIA T4 $\times$ 2 \\
+        2gpu-version-batch2-with-prompt & Qwen2.5-3B-Instruct-bnb-4bit & 2048 & 32 & 16 & 2e-4 & 1 & 2 & 8 (default) & 4 & 12000 & 9.79340 & 12.23749 & Kaggle NVIDIA T4 $\times$ 2 \\
+        2gpu-version-batch32-2xlr-step4 & Qwen2.5-3B-Instruct-bnb-4bit & 2048 & 32 & 16 & 4e-4 & 2 & 4 & 8 (default) & 4 & 12000 & 9.68681 & 11.76432 & Kaggle NVIDIA T4 $\times$ 2 \\
+        3072-17hrs & Qwen2.5-Coder-3B-Instruct & 3072 & 16 & 64 & 2e-4 & 3 & 4 & 1 & 4 & 20000 & 10.77991 & 13.11993 & AMD MI100 $\times$ 2 \\
+        \hline
+    \end{tabular}
+    }
+    \caption{Summary of experiment configurations, training platforms, and Kaggle competition submission scores. Here, $r$ denotes LoRA rank, $\alpha$ denotes LoRA scaling factor, LR denotes learning rate, Train BS denotes per-device training batch size, Eval BS denotes per-device evaluation batch size, Grad Accum denotes gradient accumulation steps, and Target Samples denotes the number of training examples used in that experiment. Score (Private) and Score (Public) refer to the private and public leaderboard scores reported by Kaggle for each submission.}
+    \label{tab:experiments}
+\end{table*}
 
 \end{document}

@@ -1,6 +1,6 @@
 # Fdb version 4
-["pdflatex"] 1775187527.70177 "/Users/shanpig/Desktop/留學計畫/NYU/NYU semester 2/ECE-GY 7123 Deep Learning/midterm-project/report/latex/acl_latex.tex" "acl_latex.pdf" "acl_latex" 1775187528.41327 0
-  "/Users/shanpig/Desktop/留學計畫/NYU/NYU semester 2/ECE-GY 7123 Deep Learning/midterm-project/report/latex/acl_latex.tex" 1775187527.40607 13685 e434e25b4095f1e61a6642c7cef9949a ""
+["pdflatex"] 1775189318.53747 "/Users/shanpig/Desktop/留學計畫/NYU/NYU semester 2/ECE-GY 7123 Deep Learning/midterm-project/report/latex/acl_latex.tex" "acl_latex.pdf" "acl_latex" 1775189319.13484 0
+  "/Users/shanpig/Desktop/留學計畫/NYU/NYU semester 2/ECE-GY 7123 Deep Learning/midterm-project/report/latex/acl_latex.tex" 1775189317.53692 15902 9af978e2f050bee6bb3c86128de0c239 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/inconsolata/i4-t1-0.enc" 1558214095 7631 5169ff1acd97ff1c4ab83563c99f96f4 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
@@ -110,9 +110,9 @@
   "/usr/local/texlive/2025/texmf-var/web2c/pdftex/pdflatex.fmt" 1757008078 3345733 fc0e30b55458a54e6ec1fb646b9a4130 ""
   "/usr/local/texlive/2025/texmf.cnf" 1741450484 577 418a7058ec8e006d8704f60ecd22c938 ""
   "acl.sty" 1775166390 11615 e2c027f483aa40e577ed34264c8b0655 ""
-  "acl_latex.aux" 1775187528.35992 2496 0268e4114dd38c77127fd598d66f65ef "pdflatex"
-  "acl_latex.out" 1775187528.36038 601 dd740b4640b1b0b6cb332aad07fc315c "pdflatex"
-  "acl_latex.tex" 1775187527.40607 13685 e434e25b4095f1e61a6642c7cef9949a ""
+  "acl_latex.aux" 1775189319.09026 3150 2d24ed14fc06bc2b2385630305a0699f "pdflatex"
+  "acl_latex.out" 1775189319.09092 601 dd740b4640b1b0b6cb332aad07fc315c "pdflatex"
+  "acl_latex.tex" 1775189317.53692 15902 9af978e2f050bee6bb3c86128de0c239 ""
   (generated)
   "acl_latex.aux"
   "acl_latex.log"
