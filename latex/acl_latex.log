@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.9.4)  2 APR 2026 17:08
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.9.4)  2 APR 2026 20:22
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -404,20 +404,34 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <5> on input line 61.
 
 
-LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 94.
-(/usr/local/texlive/2025/texmf-dist/tex/latex/psnfss/ts1ptm.fd
-File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
-)
+
+Underfull \hbox (badness 3375) in paragraph at lines 89--103
+\T1/ptm/m/n/10.95 (+20) Our ex-per-i-men-ta-tion fol-lowed a staged and
+ []
+
+
+Underfull \hbox (badness 1769) in paragraph at lines 104--116
+[]\T1/ptm/m/n/10.95 (+20) We there-fore shifted to Kag-gle's NVIDIA
+ []
+
+
 
 [1{/usr/local/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/base/8r.enc}{/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/inconsolata/i4-t1-0.enc}
 
 
 
 ]
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 149.
 
 
 
-[2
+
+[2]
+
+
+
+[3
 
 ] (./acl_latex.aux)
  ***********
@@ -428,18 +442,18 @@ Package rerunfilecheck Info: File `acl_latex.out' has not changed.
 (rerunfilecheck)             Checksum: DD740B4640B1B0B6CB332AAD07FC315C;601.
  ) 
 Here is how much of TeX's memory you used:
- 13983 strings out of 473190
- 225396 string characters out of 5715801
+ 13986 strings out of 473190
+ 225283 string characters out of 5715801
  673190 words of memory out of 5000000
- 36910 multiletter control sequences out of 15000+600000
- 595074 words of font info for 157 fonts, out of 8000000 for 9000
+ 36894 multiletter control sequences out of 15000+600000
+ 595775 words of font info for 171 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 90i,10n,93p,1118b,447s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</usr/local/texlive/2025/texmf-dist/fonts/type1/public/inconsolata/Inconsolata-zi4r.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/times/utmr8a.pfb>
-Output written on acl_latex.pdf (2 pages, 50686 bytes).
+ 90i,10n,93p,1118b,448s stack positions out of 10000i,1000n,20000p,200000b,200000s
+</usr/local/texlive/2025/texmf-dist/fonts/type1/public/inconsolata/Inconsolata-zi4r.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/times/utmr8a.pfb>
+Output written on acl_latex.pdf (3 pages, 78406 bytes).
 PDF statistics:
- 70 PDF objects out of 1000 (max. 8388607)
- 59 compressed objects within 1 object stream
- 13 named destinations out of 1000 (max. 500000)
- 42545 words of extra memory for PDF output out of 42996 (max. 10000000)
+ 90 PDF objects out of 1000 (max. 8388607)
+ 72 compressed objects within 1 object stream
+ 15 named destinations out of 1000 (max. 500000)
+ 41009 words of extra memory for PDF output out of 42996 (max. 10000000)
 

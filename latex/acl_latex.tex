@@ -86,27 +86,69 @@ best balance between capacity and stable training/inference.
 
 \section{Experimentation}
 
-We conducted multiple experiments to improve model performance through
-iterative refinement.
+Our experimentation followed a staged and hypothesis-driven progression. We
+began with the official starter implementation and first modified it so that
+it could run reliably on a single AMD MI100 GPU, since the original workflow
+was not directly aligned with our hardware environment. Using this adapted
+starter as the baseline, we conducted a sequence of controlled ablations on
+the Qwen2.5-1.5B model family. We first increased the maximum sequence length
+from 1536 to 2048 to test whether longer context windows would improve SVG
+generation quality. We then increased the LoRA rank and LoRA scaling factor to
+evaluate whether stronger low-rank adaptation would improve performance.
+Finally, we expanded the training set size in stages, moving from the default
+subset to 24,000 and then 36,000 samples, in order to determine whether
+additional supervision translated into better results. These initial
+experiments established a clear reference point, but they did not yield a
+meaningful improvement over the starter baseline.
 
-\textbf{Hyperparameters:}
-\begin{itemize}
-    \item Learning rate: [fill if known, e.g., 1e-3, 1e-4]
-    \item Batch size: [e.g., 16, 32]
-    \item Number of epochs: [range or estimate]
-\end{itemize}
+We therefore shifted to Kaggle's NVIDIA T4~$\times$~2 environment and moved to
+the Unsloth 3B model family. In this phase, we used 4-bit loading so that the
+larger 3B models would remain trainable within the memory limits of the hosted
+GPUs while reducing the risk of out-of-memory failures. Starting from an
+initial 3B configuration, we increased LoRA rank and per-device batch size to
+better utilize the available GPU resources and improve training throughput. We
+then introduced a more explicit system prompt containing SVG-specific rules to
+test whether stronger task guidance improved both training behavior and
+inference quality. In a later Kaggle variant, we further increased the
+per-device batch size, doubled the learning rate, and doubled the number of
+training epochs in order to test a more aggressive optimization setup while
+remaining within the platform's memory constraints.
 
-\textbf{Experimented Variations:}
-\begin{itemize}
-    \item Baseline model configuration
-    \item Adjustments to model architecture
-    \item Different training settings (learning rate, batch size)
-\end{itemize}
+As the project progressed, Kaggle usage limits became a practical bottleneck
+for longer and more resource-intensive runs. We therefore returned to the AMD
+platform, this time using a two-GPU setup for our final high-capacity
+experiment. In this last stage, we increased the maximum sequence length to
+3072 and switched to Qwen2.5-Coder-3B-Instruct, while also lowering the LoRA
+rank, increasing the LoRA scaling factor, and training for more epochs. This
+configuration was intended to combine longer context, stronger code-oriented
+reasoning, and a more stable training environment for extended runs. Among the
+configurations we evaluated, this final AMD-based setup produced the strongest
+overall result.
 
-Due to long training cycles, we focused on testing a limited number of
-meaningful configurations rather than performing an exhaustive search. We
-prioritized changes that were most likely to impact performance based on
-intuition and prior experience.
+\begin{table*}[t]
+    \centering
+    \scriptsize
+    \setlength{\tabcolsep}{3pt}
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{l l c c c c c c c c c l}
+        \hline
+        Experiment & Model & Max Seq & $r$ & $\alpha$ & LR & Epochs & Train BS & Eval BS & Grad Accum & Target Samples & Platform \\
+        \hline
+        starter/1536 & Qwen2.5-1.5B-Instruct & 1536 & 16 & 16 & 2e-4 & 1 & 1 & 1 & 8 & 12000 & AMD MI100 \\
+        starter/2048 & Qwen2.5-1.5B-Instruct & 2048 & 16 & 16 & 2e-4 & 1 & 1 & 1 & 8 & 12000 & AMD MI100 \\
+        starter/2048-r32 & Qwen2.5-1.5B-Instruct & 2048 & 32 & 64 & 2e-4 & 1 & 1 & 1 & 8 & 12000 & AMD MI100 \\
+        starter/2048-r32-24000 & Qwen2.5-1.5B-Instruct & 2048 & 32 & 64 & 2e-4 & 1 & 1 & 1 & 8 & 24000 & AMD MI100 \\
+        starter/2048-r32-36000 & Qwen2.5-1.5B-Instruct & 2048 & 32 & 64 & 2e-4 & 1 & 1 & 1 & 8 & 36000 & AMD MI100 \\
+        2gpu version & Qwen2.5-3B-Instruct-bnb-4bit & 2048 & 16 & 16 & 2e-4 & 1 & 1 & -- & 4 & -- & Kaggle NVIDIA T4 $\times$ 2 \\
+        2gpu-version-batch2 & Qwen2.5-3B-Instruct-bnb-4bit & 2048 & 32 & 16 & 2e-4 & 1 & 2 & -- & 4 & -- & Kaggle NVIDIA T4 $\times$ 2 \\
+        2gpu-version-batch2-with-prompt & Qwen2.5-3B-Instruct-bnb-4bit & 2048 & 32 & 16 & 2e-4 & 1 & 2 & -- & 4 & -- & Kaggle NVIDIA T4 $\times$ 2 \\
+        2gpu-version-batch32-2xlr-step4 & Qwen2.5-3B-Instruct-bnb-4bit & 2048 & 32 & 16 & 4e-4 & 2 & 4 & -- & 4 & -- & Kaggle NVIDIA T4 $\times$ 2 \\
+        3072-17hrs & Qwen2.5-Coder-3B-Instruct & 3072 & 16 & 64 & 2e-4 & 3 & 4 & 1 & 4 & 20000 & AMD MI100 $\times$ 2 \\
+        \hline
+    \end{tabular}
+    }
+    \caption{Experiment configurations (scores omitted here).}
+\end{table*}
 
 \section{Results}
 
