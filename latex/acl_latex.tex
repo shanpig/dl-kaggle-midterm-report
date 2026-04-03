@@ -115,6 +115,13 @@ Raw SVGs contain redundant metadata, arbitrary spatial dimensions, and high nume
 Ultimately, these interconnected preprocessing steps heavily constrain the problem space, significantly reducing token overhead while maintaining visual fidelity.
 This structurally sound, token-optimized data allows the model to efficiently learn the highly complex mapping between natural language descriptions and valid geometric code without the need for additional data augmentation.
 
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.48\textwidth]{MinimizationExample.png}
+    \caption{Visual and code representation of an SVG before and after minimization and preprocessing pipeline.}
+    \label{fig:minimization-3}
+\end{figure}
+
 \section{Model Description}
 
 We implemented a deep learning model to address the task, starting from a
