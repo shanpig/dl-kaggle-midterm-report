@@ -56,13 +56,8 @@ the given dataset while exploring different architectural and training choices.
 
 Due to the computational cost of training, we emphasize iterative
 experimentation and practical improvements over exhaustive search. We evaluate
-different configurations and analyze what contributes most to performance.
-
-\footnote{Code repository: \href{https://github.com/shanpig/dl-kaggle-midterm}{github.com/shanpig/dl-kaggle-midterm}.}
-
-\footnote{Model weights: [ADD YOUR LINK HERE]}
-
-\footnote{We used GPT and Cursor for debugging and implementation assistance.}
+different configurations and analyze what contributes most to
+performance.\footnote{Code repository: \href{https://github.com/shanpig/dl-kaggle-midterm}{github.com/shanpig/dl-kaggle-midterm}.}\footnote{Model weights: [ADD YOUR LINK HERE]}\footnote{We used GPT and Cursor for debugging and implementation assistance.}
 
 \section{Dataset}
 
@@ -97,9 +92,10 @@ generation quality. We then increased the LoRA rank and LoRA scaling factor to
 evaluate whether stronger low-rank adaptation would improve performance.
 Finally, we expanded the training set size in stages, moving from the default
 subset to 24,000 and then 36,000 samples, in order to determine whether
-additional supervision translated into better results. These initial
-experiments established a clear reference point, but they did not yield a
-meaningful improvement over the starter baseline.
+additional supervision translated into better results. The full set of
+experiment configurations is summarized in Table~\ref{tab:experiments}. These
+initial experiments established a clear reference point, but they did not
+yield a meaningful improvement over the starter baseline.
 
 We therefore shifted to Kaggle's NVIDIA T4~$\times$~2 environment and moved to
 the Unsloth 3B model family. In this phase, we used 4-bit loading so that the
@@ -148,6 +144,7 @@ overall result.
     \end{tabular}
     }
     \caption{Experiment configurations (scores omitted here).}
+    \label{tab:experiments}
 \end{table*}
 
 \section{Results}
