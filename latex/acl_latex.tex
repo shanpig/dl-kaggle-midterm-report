@@ -29,6 +29,8 @@
 \usepackage{graphicx}
 \usepackage{url}
 
+\usepackage{float}
+
 \title{Deep Learning Midterm Project Report}
 
 \author{[Your Name] \\
@@ -63,10 +65,55 @@ and Cursor for debugging and implementation assistance.}
 
 \section{Dataset}
 
-[TO BE FILLED]
+The dataset utilized in this study comprises paired natural language descriptions and Scalable Vector Graphics (SVG) code. The data is partitioned into a training set of 50,000 records (\texttt{train.csv}), which includes a unique identifier (\texttt{id}), a natural language prompt (\texttt{prompt}), and the ground-truth SVG code (\texttt{svg}). The evaluation set (\texttt{test.csv}) contains 1,000 records featuring only the identifier and prompt, tasking the model with generating the missing SVG format. To ensure robust training within the strict context window limitations of Large Language Models (LLMs), we validated the train-test distributional alignment and applied a deterministic preprocessing pipeline to structurally optimize the data without relying on synthetic augmentation.
+\subsection{Dataset Alignment}
+We verified consistency between the training and testing sets to prevent out-of-distribution evaluation. Textual prompts exhibit highly consistent lengths—averaging 19.79 and 20.14 words for the train and test sets, respectively—and share core vocabulary (e.g., ``black'', ``white'', ``icon'').
 
-We describe the dataset, preprocessing steps, and any augmentation techniques
-applied.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.48\textwidth]{TrainVsTest-2.png}
+    \caption{Comparative analysis of textual distributions between the training and testing datasets.}
+    \label{fig:train_vs_test-1}
+\end{figure}
+
+Structural visual complexity also aligns closely: the training set averages 2.8 XML tags per image, matching the NLP-predicted expectation of 2.87 tags for the test set.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.48\textwidth]{TrainVsTest-1.png}
+    \caption{Comparative analysis of structural distributions between the training and testing datasets.}
+    \label{fig:train_vs_test-2}
+\end{figure}
+
+\subsection{Preprocessing and Optimization Pipeline}
+Raw SVGs contain redundant metadata, arbitrary spatial dimensions, and high numerical precision that consume excessive tokens. To maximize semantic density while strictly constraining sequences to 8,000 characters and 256 path elements, we standardized 20,000 target samples through the following pipeline:
+
+\begin{itemize}
+    \item \textbf{Dimensional Standardization:} All canvases are mathematically scaled to a uniform $256 \times 256$ coordinate system. The algorithm extracts the original \texttt{viewBox} and proportionally updates all spatial attributes (e.g., \texttt{cx}, \texttt{width}, \texttt{d}) and complex transformation matrices (\texttt{translate}, \texttt{rotate}), establishing a fixed spatial representation for the model.
+    \item \textbf{Tag Sanitization:} To prevent hallucination of proprietary metadata, we enforce a strict whitelist of 13 geometric tags (e.g., \texttt{path}, \texttt{rect}, \texttt{g}, \texttt{circle}). Unsupported elements and redundant styling attributes (such as \texttt{filling} and default opacities) are completely discarded.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.48\textwidth]{Minimization-1.png}
+    \caption{Structural representation of the training SVGs in characters before and after minimization and preprocessing pipeline.}
+    \label{fig:minimization-2}
+\end{figure}
+
+\begin{itemize}
+    \item \textbf{Token Minification:} Numerical coordinates are aggressively rounded to reduce sequence length, removing decimals for whole numbers and limiting floats to one decimal place (e.g., 12.5). XML headers, newlines, and extraneous whitespace are stripped entirely, flattening the hierarchical tree into a dense, continuous string.
+    \item \textbf{Formatting:} Tabular features are standardized (renamed to \texttt{prompt} and \texttt{svg}), stripped of invalid XMLs, and formatted for direct compatibility with Hugging Face training libraries.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.48\textwidth]{Minimization-2.png}
+    \caption{Structural representation of the training SVGs in tokens before and after minimization and preprocessing pipeline.}
+    \label{fig:minimization-1}
+\end{figure}
+
+Ultimately, these interconnected preprocessing steps heavily constrain the problem space, significantly reducing token overhead while maintaining visual fidelity.
+This structurally sound, token-optimized data allows the model to efficiently learn the highly complex mapping between natural language descriptions and valid geometric code without the need for additional data augmentation.
 
 \section{Model Description}
 
