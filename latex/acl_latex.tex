@@ -57,7 +57,7 @@ the given dataset while exploring different architectural and training choices.
 Due to the computational cost of training, we emphasize iterative
 experimentation and practical improvements over exhaustive search. We evaluate
 different configurations and analyze what contributes most to
-performance.\footnote{Code repository: \href{https://github.com/shanpig/dl-kaggle-midterm}{github.com/shanpig/dl-kaggle-midterm}.}\footnote{Model weights: [ADD YOUR LINK HERE]}\footnote{We used GPT and Cursor for debugging and implementation assistance.}
+performance.\footnote{Code repository: \href{https://github.com/shanpig/dl-kaggle-midterm}{GitHub repository}.}\footnote{Model weights: \href{https://github.com/shanpig/dl-kaggle-midterm/tree/main/adapter}{GitHub adapter link}.}\footnote{We used GPT and Cursor for implementation, debugging, learning, report drafting, and proofreading.}
 
 \section{Dataset}
 
@@ -70,14 +70,21 @@ applied.
 
 We build on the Qwen2.5 series as our base model family, which provides
 strong general-purpose capabilities and a range of parameter sizes suitable
-for experimentation on limited hardware. For this task we chose the 
-Qwen/Qwen2.5-Coder-XB-Instruct variants because they are optimized for code-oriented
-reasoning and instruction-following behavior, aligning well with the
-debugging, code-related structured output, and prompt-driven workflow required by the
-competition setting. We initially evaluated 1.5B, 3B, and 7B parameter
-models; however, the 7B version consistently pushed GPU memory to near
-out-of-memory limits, so we ultimately standardized on 3B and 1.5B models as the
-best balance between capacity and stable training/inference.
+for experimentation on limited hardware. Our experiments span both
+general-purpose instruction-tuned models and code-specialized
+instruction-tuned models within the Qwen2.5 family. In particular,
+Qwen2.5-1.5B-Instruct serves as a general instruction-following baseline,
+whereas Qwen2.5-Coder-3B-Instruct is more specialized for code-like and
+syntax-constrained generation. This distinction is important for our task,
+since SVG generation behaves more like structured markup generation than
+free-form natural language generation: the model must maintain valid tags,
+attributes, nesting, and quotation syntax while still following the semantic
+content of the prompt. For this reason, the coder-oriented variants are a
+natural fit for later-stage experiments that emphasize structured SVG output.
+We initially evaluated 1.5B, 3B, and 7B parameter models; however, the 7B
+version consistently pushed GPU memory to near out-of-memory limits, so we
+ultimately standardized on 3B and 1.5B models as the best balance between
+capacity and stable training/inference.
 
 \section{Experimentation}
 
@@ -95,7 +102,10 @@ subset to 24,000 and then 36,000 samples, in order to determine whether
 additional supervision translated into better results. The full set of
 experiment configurations is summarized in Table~\ref{tab:experiments}. These
 initial experiments established a clear reference point, but they did not
-yield a meaningful improvement over the starter baseline.
+yield a meaningful improvement over the starter baseline. In these starter
+experiments, we set the evaluation batch size to 1 in order to minimize the
+risk of out-of-memory failures during validation, which we observed
+frequently when larger evaluation batches were used on the AMD platform.
 
 We therefore shifted to Kaggle's NVIDIA T4~$\times$~2 environment and moved to
 the Unsloth 3B model family. In this phase, we used 4-bit loading so that the
@@ -117,57 +127,70 @@ experiment. In this last stage, we increased the maximum sequence length to
 3072 and switched to Qwen2.5-Coder-3B-Instruct, while also lowering the LoRA
 rank, increasing the LoRA scaling factor, and training for more epochs. This
 configuration was intended to combine longer context, stronger code-oriented
-reasoning, and a more stable training environment for extended runs. Among the
-configurations we evaluated, this final AMD-based setup produced the strongest
-overall result.
+reasoning, and a more stable training environment for extended runs. The
+switch to the coder-specialized model was motivated by the observation that
+SVG generation is fundamentally a structured markup task, so a model with a
+stronger bias toward code-like syntax and constrained output was a better fit
+than a general instruction-tuned alternative. We again set the evaluation
+batch size to 1 in this final AMD-based configuration for the same reason: to
+reduce evaluation-time memory pressure and avoid out-of-memory interruptions.
 
 \begin{table*}[t]
     \centering
     \scriptsize
     \setlength{\tabcolsep}{3pt}
     \resizebox{\textwidth}{!}{%
-    \begin{tabular}{l l c c c c c c c c c l}
+    \begin{tabular}{l l c c c c c c c c c c c l}
         \hline
-        Experiment & Model & Max Seq & $r$ & $\alpha$ & LR & Epochs & Train BS & Eval BS & Grad Accum & Target Samples & Platform \\
+        Experiment & Model & Max Seq & $r$ & $\alpha$ & LR & Epochs & Train BS & Eval BS & Grad Accum & Target Samples & Score (Private) & Score (Public) & Platform \\
         \hline
-        starter/1536 & Qwen2.5-1.5B-Instruct & 1536 & 16 & 16 & 2e-4 & 1 & 1 & 1 & 8 & 12000 & AMD MI100 \\
-        starter/2048 & Qwen2.5-1.5B-Instruct & 2048 & 16 & 16 & 2e-4 & 1 & 1 & 1 & 8 & 12000 & AMD MI100 \\
-        starter/2048-r32 & Qwen2.5-1.5B-Instruct & 2048 & 32 & 64 & 2e-4 & 1 & 1 & 1 & 8 & 12000 & AMD MI100 \\
-        starter/2048-r32-24000 & Qwen2.5-1.5B-Instruct & 2048 & 32 & 64 & 2e-4 & 1 & 1 & 1 & 8 & 24000 & AMD MI100 \\
-        starter/2048-r32-36000 & Qwen2.5-1.5B-Instruct & 2048 & 32 & 64 & 2e-4 & 1 & 1 & 1 & 8 & 36000 & AMD MI100 \\
-        2gpu version & Qwen2.5-3B-Instruct-bnb-4bit & 2048 & 16 & 16 & 2e-4 & 1 & 1 & -- & 4 & -- & Kaggle NVIDIA T4 $\times$ 2 \\
-        2gpu-version-batch2 & Qwen2.5-3B-Instruct-bnb-4bit & 2048 & 32 & 16 & 2e-4 & 1 & 2 & -- & 4 & -- & Kaggle NVIDIA T4 $\times$ 2 \\
-        2gpu-version-batch2-with-prompt & Qwen2.5-3B-Instruct-bnb-4bit & 2048 & 32 & 16 & 2e-4 & 1 & 2 & -- & 4 & -- & Kaggle NVIDIA T4 $\times$ 2 \\
-        2gpu-version-batch32-2xlr-step4 & Qwen2.5-3B-Instruct-bnb-4bit & 2048 & 32 & 16 & 4e-4 & 2 & 4 & -- & 4 & -- & Kaggle NVIDIA T4 $\times$ 2 \\
-        3072-17hrs & Qwen2.5-Coder-3B-Instruct & 3072 & 16 & 64 & 2e-4 & 3 & 4 & 1 & 4 & 20000 & AMD MI100 $\times$ 2 \\
+        starter/1536 & Qwen2.5-1.5B-Instruct & 1536 & 16 & 16 & 2e-4 & 1 & 1 & 1 & 8 & 12000 & 8.42524 & 11.11991 & AMD MI100 \\
+        starter/2048 & Qwen2.5-1.5B-Instruct & 2048 & 16 & 16 & 2e-4 & 1 & 1 & 1 & 8 & 12000 & 8.42524 & 11.11991 & AMD MI100 \\
+        starter/2048-r32 & Qwen2.5-1.5B-Instruct & 2048 & 32 & 64 & 2e-4 & 1 & 1 & 1 & 8 & 12000 & 8.42524 & 11.11991 & AMD MI100 \\
+        starter/2048-r32-24000 & Qwen2.5-1.5B-Instruct & 2048 & 32 & 64 & 2e-4 & 1 & 1 & 1 & 8 & 24000 & 8.42524 & 11.11991 & AMD MI100 \\
+        starter/2048-r32-36000 & Qwen2.5-1.5B-Instruct & 2048 & 32 & 64 & 2e-4 & 1 & 1 & 1 & 8 & 36000 & 8.42524 & 11.11991 & AMD MI100 \\
+        2gpu version & Qwen2.5-3B-Instruct-bnb-4bit & 2048 & 16 & 16 & 2e-4 & 1 & 1 & 8 (default) & 4 & 12000 & 7.27635 & 9.65655 & Kaggle NVIDIA T4 $\times$ 2 \\
+        2gpu-version-batch2 & Qwen2.5-3B-Instruct-bnb-4bit & 2048 & 32 & 16 & 2e-4 & 1 & 2 & 8 (default) & 4 & 12000 & 8.27318 & 10.84663 & Kaggle NVIDIA T4 $\times$ 2 \\
+        2gpu-version-batch2-with-prompt & Qwen2.5-3B-Instruct-bnb-4bit & 2048 & 32 & 16 & 2e-4 & 1 & 2 & 8 (default) & 4 & 12000 & 9.79340 & 12.23749 & Kaggle NVIDIA T4 $\times$ 2 \\
+        2gpu-version-batch32-2xlr-step4 & Qwen2.5-3B-Instruct-bnb-4bit & 2048 & 32 & 16 & 4e-4 & 2 & 4 & 8 (default) & 4 & 12000 & 9.68681 & 11.76432 & Kaggle NVIDIA T4 $\times$ 2 \\
+        3072-17hrs & Qwen2.5-Coder-3B-Instruct & 3072 & 16 & 64 & 2e-4 & 3 & 4 & 1 & 4 & 20000 & 10.77991 & 13.11993 & AMD MI100 $\times$ 2 \\
         \hline
     \end{tabular}
     }
-    \caption{Experiment configurations (scores omitted here).}
+    \caption{Summary of experiment configurations, training platforms, and Kaggle competition submission scores. Here, $r$ denotes LoRA rank, $\alpha$ denotes LoRA scaling factor, LR denotes learning rate, Train BS denotes per-device training batch size, Eval BS denotes per-device evaluation batch size, Grad Accum denotes gradient accumulation steps, and Target Samples denotes the number of training examples used in that experiment. Score (Private) and Score (Public) refer to the private and public leaderboard scores reported by Kaggle for each submission.}
     \label{tab:experiments}
 \end{table*}
 
 \section{Results}
 
-\begin{table}[t]
-    \centering
-    \begin{tabular}{lc}
-        \hline
-        Model & Score \\
-        \hline
-        Baseline & [XX.X] \\
-        Final Model & [XX.X] \\
-        \hline
-    \end{tabular}
-    \caption{Comparison between the baseline and final model performance.}
-\end{table}
+The results in Table~\ref{tab:experiments} show a clear progression across the
+different stages of experimentation. The starter-based AMD runs were stable
+but did not show measurable improvement across changes in sequence length,
+LoRA configuration, or training-set size: all five starter variants produced
+the same private score of 8.42524 and public score of 11.11991. This suggests
+that, within that baseline setup, simply scaling context length, adapter
+strength, or sample count was not sufficient to improve performance.
 
-The final model achieved improved performance compared to the baseline. We
-observed that tuning hyperparameters, particularly learning rate and model
-configuration, had a noticeable impact on results.
+Moving to the Kaggle NVIDIA T4~$\times$~2 environment with the 3B Instruct
+model produced an immediate improvement over the starter baseline. The initial
+3B configuration achieved a private score of 7.27635 and a public score of
+9.65655. Increasing LoRA rank and batch size further improved performance to
+8.27318 private and 10.84663 public. The strongest Kaggle result came from the
+prompt-augmented variant, which reached 9.79340 private and 12.23749 public,
+indicating that explicit SVG-oriented instruction formatting contributed
+meaningfully to model behavior. By contrast, the later variant with larger
+batch size, higher learning rate, and more epochs did not improve further,
+ending at 9.68681 private and 11.76432 public, which suggests that more
+aggressive optimization alone did not yield additional gains.
 
-In some cases, increasing model complexity did not yield proportional
-improvements, indicating diminishing returns.
+The best overall performance came from the final AMD-based experiment using
+Qwen2.5-Coder-3B-Instruct with a 3072-token context window. This configuration
+achieved 10.77991 on the private leaderboard and 13.11993 on the public
+leaderboard, outperforming all previous runs. Taken together, these results
+indicate that the most important improvements came not from isolated scaling
+of baseline hyperparameters, but from a combination of stronger model choice,
+task-aligned prompting, and a final transition to a coder-specialized model
+with longer context and a higher-capacity training setup.
 
 \section{Conclusion}
 

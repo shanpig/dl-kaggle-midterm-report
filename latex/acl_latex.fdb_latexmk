@@ -1,6 +1,6 @@
 # Fdb version 4
-["pdflatex"] 1775176090.35558 "/Users/shanpig/Desktop/留學計畫/NYU/NYU semester 2/ECE-GY 7123 Deep Learning/midterm-project/report/latex/acl_latex.tex" "acl_latex.pdf" "acl_latex" 1775176090.97177 0
-  "/Users/shanpig/Desktop/留學計畫/NYU/NYU semester 2/ECE-GY 7123 Deep Learning/midterm-project/report/latex/acl_latex.tex" 1775176090.06152 8781 efc4ebfca59f28aedc0faba98c6b5ca0 ""
+["pdflatex"] 1775186406.71853 "/Users/shanpig/Desktop/留學計畫/NYU/NYU semester 2/ECE-GY 7123 Deep Learning/midterm-project/report/latex/acl_latex.tex" "acl_latex.pdf" "acl_latex" 1775186407.33942 0
+  "/Users/shanpig/Desktop/留學計畫/NYU/NYU semester 2/ECE-GY 7123 Deep Learning/midterm-project/report/latex/acl_latex.tex" 1775186406.3435 12048 51d6d1fd0ae59a73bbac0e452c45565b ""
   "/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/inconsolata/i4-t1-0.enc" 1558214095 7631 5169ff1acd97ff1c4ab83563c99f96f4 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
@@ -29,6 +29,7 @@
   "/usr/local/texlive/2025/texmf-dist/fonts/tfm/public/latex-fonts/lasy7.tfm" 1136768653 520 a74c6ed8cb48679fdc3ea874d9d34a7e ""
   "/usr/local/texlive/2025/texmf-dist/fonts/tfm/public/latex-fonts/lasy8.tfm" 1136768653 520 7bb3abb160b19e0ed6ac404bb59052b7 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/tfm/public/latex-fonts/lasy9.tfm" 1136768653 520 1cc7cc05f4d7bae5c23bf7516f88fa52 ""
+  "/usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb" 1248133631 36299 5f9df58c2139e7edcf37c8fca4bd384d ""
   "/usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb" 1248133631 36281 c355509802a035cadc5f15869451dcee ""
   "/usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb" 1248133631 32569 5e5ddc8df908dea60932f3c484a54c0d ""
   "/usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb" 1248133631 32716 08e384dc442464e7285e891af9f45947 ""
@@ -109,9 +110,9 @@
   "/usr/local/texlive/2025/texmf-var/web2c/pdftex/pdflatex.fmt" 1757008078 3345733 fc0e30b55458a54e6ec1fb646b9a4130 ""
   "/usr/local/texlive/2025/texmf.cnf" 1741450484 577 418a7058ec8e006d8704f60ecd22c938 ""
   "acl.sty" 1775166390 11615 e2c027f483aa40e577ed34264c8b0655 ""
-  "acl_latex.aux" 1775176090.92761 1343 32610ded361306dd5deca85d283a567d "pdflatex"
-  "acl_latex.out" 1775176090.92801 601 dd740b4640b1b0b6cb332aad07fc315c "pdflatex"
-  "acl_latex.tex" 1775176090.06152 8781 efc4ebfca59f28aedc0faba98c6b5ca0 ""
+  "acl_latex.aux" 1775186407.29075 2170 9cfcb665ffd129c83f5b411c7e2c5efb "pdflatex"
+  "acl_latex.out" 1775186407.29117 601 dd740b4640b1b0b6cb332aad07fc315c "pdflatex"
+  "acl_latex.tex" 1775186406.3435 12048 51d6d1fd0ae59a73bbac0e452c45565b ""
   (generated)
   "acl_latex.aux"
   "acl_latex.log"
