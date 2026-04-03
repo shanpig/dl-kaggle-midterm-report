@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1775253990.76003 "c:/Users/lefte/2ndSemester/Deep Learning/report/dl-kaggle-midterm-report/latex/acl_latex.tex" "acl_latex.pdf" "acl_latex" 1775253993.7845 0
+["pdflatex"] 1775254384.62776 "c:/Users/lefte/2ndSemester/Deep Learning/report/dl-kaggle-midterm-report/latex/acl_latex.tex" "acl_latex.pdf" "acl_latex" 1775254387.83753 0
   "C:/Users/lefte/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1775237742 96176 40a8022d15c5925d7081b1ad66e03248 ""
   "C:/Users/lefte/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1775190898 13333486 648b4bb14def060aa038982fed0476db ""
   "C:/Users/lefte/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/base/8r.enc" 1458473887 4993 80dc9bab7f31fb78a000ccfed0e27cab ""
@@ -110,14 +110,14 @@
   "C:/Users/lefte/AppData/Local/Programs/MiKTeX/tex/latex/xkeyval/xkeyval.sty" 1656236919 4937 4ce600ce9bd4ec84d0250eb6892fcf4f ""
   "Minimization-1.png" 1775234815 71053 ea411e983cebb7e96df582c3f54c6d52 ""
   "Minimization-2.png" 1775234841 56779 bccf3afda1035cbc39ebc72021391f8b ""
-  "MinimizationExample.png" 1775253642 512206 117334140770e1cd3ee93a1fa60dfe30 ""
+  "MinimizationExample.png" 1775254297 515114 386a98b0f635d741337f8aba3b1b769d ""
   "TrainVsTest-1.png" 1775233362 94158 99765a635b1d24052c28119b54a0336c ""
   "TrainVsTest-2.png" 1775233566 98016 dba833a4bde950436e09b6c1b5fcec47 ""
   "acl.sty" 1775188102 11927 e2c027f483aa40e577ed34264c8b0655 ""
-  "acl_latex.aux" 1775253993 5170 893e091c10f35c5d1dcf41d6c006f452 "pdflatex"
-  "acl_latex.out" 1775253993 1007 9b063c5a41348da8774a29c8e1765192 "pdflatex"
-  "acl_latex.tex" 1775253986 9690 7e995906abf4bc9e9f2c56b7d69cae53 ""
-  "c:/Users/lefte/2ndSemester/Deep Learning/report/dl-kaggle-midterm-report/latex/acl_latex.tex" 1775253986 9690 7e995906abf4bc9e9f2c56b7d69cae53 ""
+  "acl_latex.aux" 1775254387 5170 893e091c10f35c5d1dcf41d6c006f452 "pdflatex"
+  "acl_latex.out" 1775254387 1007 9b063c5a41348da8774a29c8e1765192 "pdflatex"
+  "acl_latex.tex" 1775254383 9690 7e995906abf4bc9e9f2c56b7d69cae53 ""
+  "c:/Users/lefte/2ndSemester/Deep Learning/report/dl-kaggle-midterm-report/latex/acl_latex.tex" 1775254383 9690 7e995906abf4bc9e9f2c56b7d69cae53 ""
   (generated)
   "acl_latex.aux"
   "acl_latex.log"
