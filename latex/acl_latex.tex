@@ -201,7 +201,15 @@ particular, the first four rows of Table~\ref{tab:preprocessing_ablation}
 keep Prompt A fixed, allowing the preprocessing variants and LoRA
 configurations to be compared under a shared prompting setup. This makes that
 portion of the table most relevant to the preprocessing-oriented
-interpretation of this subsection.
+interpretation of this subsection. In this ablation table, Prompt A, Prompt B,
+and Prompt C are study-specific labels used to distinguish prompt variants
+within this early screening phase. Their full prompt definitions are listed in
+Tables~\ref{tab:ablation-prompt-a}, \ref{tab:ablation-prompt-b}, and
+\ref{tab:ablation-prompt-c}. These study-specific prompts should be
+interpreted separately from the full prompt templates shown later in
+Tables~\ref{tab:prompt-base}, \ref{tab:prompt}, and
+\ref{tab:prompt-designer}, which summarize the prompt families used in the
+main training progression.
 
 \subsection{Main Training Progression}
 
@@ -232,17 +240,19 @@ of out-of-memory failures. Starting from an initial 3B configuration, we
 increased LoRA rank and per-device batch size to better utilize the available
 GPU resources and improve training throughput. We then introduced a more
 explicit system prompt containing SVG-specific rules to test whether stronger
-task guidance improved both training behavior and inference quality. For
-reference, Table~\ref{tab:prompt} shows the system prompt used in the
+task guidance improved both training behavior and inference quality. The full
+set of configurations in this staged progression is summarized in
+Table~\ref{tab:experiments}, including the prompt-guided
 \texttt{2gpu-version-batch2-with-prompt} experiment.
 After introducing this prompt-guided variant, we further increased the
 per-device batch size, doubled the learning rate, and doubled the number of
 training epochs in order to test a more aggressive optimization setup while
 remaining within the platform's memory constraints. Across the full project,
-we used three prompt families: a short baseline prompt for the starter and
-early 2GPU runs (Table~\ref{tab:prompt-base}), a stricter SVG-rule prompt for
-the \texttt{2gpu-version-batch2-with-prompt} family (Table~\ref{tab:prompt}),
-and a later compacted designer-oriented prompt for the final 3072-token AMD
+we used three prompt families across these experiments: a short baseline
+prompt for the starter and early 2GPU runs
+(Table~\ref{tab:prompt-base}), a stricter SVG-rule prompt for the
+\texttt{2gpu-version-batch2-with-prompt} family (Table~\ref{tab:prompt}), and
+a later compacted designer-oriented prompt for the final 3072-token AMD
 experiments (Table~\ref{tab:prompt-designer}). This third prompt was designed
 as a condensed version of the earlier strict SVG-rule prompt: it retained the
 most important structural constraints while reducing prompt length, with the
@@ -277,10 +287,12 @@ system-prompt formulations affect SVG generation behavior. While these prompt
 families were also used in the main training progression, we analyze them here
 as a separate design dimension in order to isolate the qualitative effect of
 prompt strictness and structure. We compared three prompt families: a short
-baseline prompt used in the starter and early 2GPU runs, a stricter SVG-rule
-prompt that explicitly enumerated formatting and tag constraints, and a later
-compacted designer-oriented prompt that retained the most important structural
-constraints while reducing prompt length.
+baseline prompt used in the starter and early 2GPU runs
+(Table~\ref{tab:prompt-base}), a stricter SVG-rule prompt that explicitly
+enumerated formatting and tag constraints (Table~\ref{tab:prompt}), and a
+later compacted designer-oriented prompt that retained the most important
+structural constraints while reducing prompt length
+(Table~\ref{tab:prompt-designer}).
 
 This interpretation is also supported by the later rows of
 Table~\ref{tab:preprocessing_ablation}. After the successful preprocessing
@@ -288,7 +300,12 @@ pipeline (variant B) had been established, the remaining configurations varied
 prompt formulation alongside related settings such as sample count and context
 length. These rows are therefore not a pure prompt-only ablation, but they do
 show that prompt design remained an important experimental axis once
-preprocessing had been stabilized.
+preprocessing had been stabilized. In particular, the later rows of
+Table~\ref{tab:preprocessing_ablation} extend the comparison to study-specific
+Prompt B and Prompt C variants under the successful preprocessing setup, whose
+definitions are listed in Tables~\ref{tab:ablation-prompt-b} and
+\ref{tab:ablation-prompt-c}. These labels should not be conflated with the
+separate prompt families used in the main experiment progression.
 
 The qualitative examples from this study, shown in
 Figure~\ref{fig:prompt-analysis}, suggest that some degree of restriction is
@@ -536,6 +553,100 @@ Qwen2.5-3B-Instruct on Kaggle NVIDIA T4 $\times$ 2 with
     }
     \caption{Summary of experiment configurations, training platforms, and Kaggle competition submission scores. Here, $r$ denotes LoRA rank, $\alpha$ denotes LoRA scaling factor, LR denotes learning rate, Train BS denotes per-device training batch size, Eval BS denotes per-device evaluation batch size, Grad Accum denotes gradient accumulation steps, and Target Samples denotes the number of training examples used in that experiment. Score (Private) and Score (Public) refer to the private and public leaderboard scores reported by Kaggle for each submission.}
     \label{tab:experiments}
+\end{table*}
+
+\begin{table*}[!t]
+\centering
+\begin{minipage}{0.96\textwidth}
+\footnotesize
+\begin{verbatim}
+You are an expert SVG designer. You generate compact, valid SVG markup
+from user requests. You must strictly adhere to the following constraints:
+1. Return ONLY valid SVG code starting with <svg> and ending with </svg>.
+   Do not include markdown formatting or explanations.
+2. The canvas MUST be exactly 256x256. Your root tag must be:
+   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"
+   width="256" height="256">
+3. Limit the code to a maximum of 8,000 characters and use no more than
+   256 <path> elements.
+4. Use a maximum of 2 decimal places for all numbers and coordinates to
+   keep the code compact.
+5. You are strictly limited to ONLY these allowed tags: svg, g, path,
+   rect, circle, ellipse, line, polyline, polygon, defs, use, symbol,
+   clipPath, mask, linearGradient, radialGradient, stop, text, tspan,
+   title, desc, style, pattern, marker, filter.
+   Do NOT use any hallucinated tags like <rectangle> or <move>.
+\end{verbatim}
+\end{minipage}
+\caption{Prompt A used in the preprocessing-oriented ablation study.}
+\label{tab:ablation-prompt-a}
+\end{table*}
+
+\begin{table*}[!t]
+\centering
+\begin{minipage}{0.96\textwidth}
+\footnotesize
+\begin{verbatim}
+You are an expert SVG designer. You generate compact, valid SVG markup
+from user requests.
+
+You MUST focus on ALL the shapes, colors, and spatial relationships
+described by the user to generate a highly accurate SVG.
+
+You must strictly adhere to the following constraints:
+1. Return ONLY raw, valid SVG code. Do NOT wrap the output in code blocks.
+   Do not include markdown, greetings, or explanations.
+2. The canvas MUST be exactly 256x256. Your root tag must exactly match:
+   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"
+   width="256" height="256">
+3. Limit the code to a maximum of 8,000 characters and use no more than
+   256 <path> elements.
+4. Keep the code heavily minified. Use pure integers wherever possible,
+   and a maximum of 1 decimal place for all other numbers. Do not use any
+   line breaks, indentations, or unnecessary whitespace.
+5. Render order matters: Draw background elements first, then midground,
+   then foreground details last.
+6. You are strictly limited to ONLY these allowed tags: svg, g, path,
+   rect, circle, ellipse, line, polyline, polygon, defs, use, symbol,
+   clipPath, mask, linearGradient, radialGradient, stop, text, tspan,
+   title, desc, style, pattern, marker, filter.
+7. Do NOT use any hallucinated tags like <rectangle> or <move>.
+\end{verbatim}
+\end{minipage}
+\caption{Prompt B used in the preprocessing-oriented ablation study.}
+\label{tab:ablation-prompt-b}
+\end{table*}
+
+\begin{table*}[!t]
+\centering
+\begin{minipage}{0.96\textwidth}
+\footnotesize
+\begin{verbatim}
+You are a master SVG engine. Your goal is to translate user descriptions
+into clean, structurally sound, and high-quality SVG code.
+
+1. CANVAS & COORDINATES: Always work within a 256x256 coordinate system.
+   Set viewBox='0 0 256 256'. Use only integers for all points.
+
+2. SHAPES & PATHS: Use rect, circle, ellipse, and polygon for simple
+   geometry. Use <path> for organic curves. Ensure every path is a direct
+   sequence of commands (M, L, C, Q, Z) that defines a clear silhouette.
+   Avoid redundant points or backtracking.
+
+3. COMPLEX OBJECTS: Break complex subjects (like human bodies, eyes, or cars)
+   into logical parts using <g> (groups). For example, an eye should have
+   groups for 'lashes', 'iris', and 'pupil'. This ensures structural clarity.
+
+4. FORMATTING: Output valid XML only. Ensure every tag opened is properly
+   closed. Prioritize a complete and valid <svg> structure above all else.
+
+5. COLORS & RELATIONSHIPS: Strictly follow the colors and spatial
+   relationships (centered, overlapping, vertically arranged) described by the
+   user. If no color is mentioned, default to black (#000000).
+\end{verbatim}
+\end{minipage}
+\caption{Prompt C used in the preprocessing-oriented ablation study.}
+\label{tab:ablation-prompt-c}
 \end{table*}
 
 \end{document}

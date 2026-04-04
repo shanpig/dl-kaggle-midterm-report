@@ -259,8 +259,13 @@ INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/public/inconsolata/t1-zi4r-0.
 INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/public/latex-fonts/lasy10.tfm
 INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/public/latex-fonts/lasy7.tfm
 INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/adobe/times/ptmr8t.tfm
+INPUT /usr/local/texlive/2025/texmf-dist/tex/latex/inconsolata/ts1zi4.fd
+INPUT /usr/local/texlive/2025/texmf-dist/tex/latex/inconsolata/ts1zi4.fd
+INPUT /usr/local/texlive/2025/texmf-dist/tex/latex/inconsolata/ts1zi4.fd
+INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/public/inconsolata/ts1-zi4r.tfm
 INPUT /usr/local/texlive/2025/texmf-dist/fonts/vf/adobe/times/ptmr8t.vf
 INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/adobe/times/ptmr8r.tfm
+INPUT /usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/inconsolata/i4-ts1.enc
 INPUT acl_latex.aux
 INPUT ./acl_latex.out
 INPUT ./acl_latex.out

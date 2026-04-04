@@ -1,9 +1,10 @@
 # Fdb version 4
-["pdflatex"] 1775271780.24223 "/Users/shanpig/Desktop/留學計畫/NYU/NYU semester 2/ECE-GY 7123 Deep Learning/midterm-project/report/latex/acl_latex.tex" "acl_latex.pdf" "acl_latex" 1775271781.57778 0
+["pdflatex"] 1775273308.61812 "/Users/shanpig/Desktop/留學計畫/NYU/NYU semester 2/ECE-GY 7123 Deep Learning/midterm-project/report/latex/acl_latex.tex" "acl_latex.pdf" "acl_latex" 1775273309.92497 0
   "../PromptAnalysis.png" 1775268904.26534 25684 c449ce1fe09b2ebdb9031520f0af3a75 ""
-  "/Users/shanpig/Desktop/留學計畫/NYU/NYU semester 2/ECE-GY 7123 Deep Learning/midterm-project/report/latex/acl_latex.tex" 1775271684.95214 30635 36d4841d134d8d1a54d59ababe07d817 ""
+  "/Users/shanpig/Desktop/留學計畫/NYU/NYU semester 2/ECE-GY 7123 Deep Learning/midterm-project/report/latex/acl_latex.tex" 1775273308.2976 35841 d24d8515d13c393eeff1117c99a45f4c ""
   "/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/inconsolata/i4-t1-0.enc" 1558214095 7631 5169ff1acd97ff1c4ab83563c99f96f4 ""
+  "/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/inconsolata/i4-ts1.enc" 1455745497 9446 fe5580ca6042a44427f18d450942e7d0 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/tfm/adobe/times/ptmb8r.tfm" 1136768653 4524 6bce29db5bc272ba5f332261583fee9c ""
   "/usr/local/texlive/2025/texmf-dist/fonts/tfm/adobe/times/ptmb8t.tfm" 1136768653 6880 f19b8995b61c334d78fc734065f6b4d4 ""
@@ -25,6 +26,7 @@
   "/usr/local/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmsy8.tfm" 1136768653 1120 8b7d695260f3cff42e636090a8002094 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmsy9.tfm" 1136768653 1116 25a7bf822c58caf309a702ef79f4afbb ""
   "/usr/local/texlive/2025/texmf-dist/fonts/tfm/public/inconsolata/t1-zi4r-0.tfm" 1558214095 1328 8f7396ab15954094ca9576957bd516dd ""
+  "/usr/local/texlive/2025/texmf-dist/fonts/tfm/public/inconsolata/ts1-zi4r.tfm" 1455745497 1244 1f88f6a5e4b8ccb8b031aa94d34557d3 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/tfm/public/latex-fonts/lasy10.tfm" 1136768653 520 82a3d37183f34b6eb363a161dfc002c2 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/tfm/public/latex-fonts/lasy5.tfm" 1136768653 520 d082ac03a1087bc1ec2a06e24a9f68c0 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/tfm/public/latex-fonts/lasy6.tfm" 1136768653 520 4889cce2180234b97cad636b6039c722 ""
@@ -93,6 +95,7 @@
   "/usr/local/texlive/2025/texmf-dist/tex/latex/hyperref/puenc.def" 1730838014 117112 7533bff456301d32e6d6356fad15f543 ""
   "/usr/local/texlive/2025/texmf-dist/tex/latex/inconsolata/inconsolata.sty" 1558214095 4327 344b968526dbd149d23066f8b2160aa4 ""
   "/usr/local/texlive/2025/texmf-dist/tex/latex/inconsolata/t1zi4.fd" 1516054831 1021 03341d1cf7f388bbac1915f944d5d128 ""
+  "/usr/local/texlive/2025/texmf-dist/tex/latex/inconsolata/ts1zi4.fd" 1516054831 862 b7bc66238166414888eb6bc81b3e9624 ""
   "/usr/local/texlive/2025/texmf-dist/tex/latex/kvoptions/kvoptions.sty" 1655478651 22555 6d8e155cfef6d82c3d5c742fea7c992e ""
   "/usr/local/texlive/2025/texmf-dist/tex/latex/kvsetkeys/kvsetkeys.sty" 1665067230 13815 760b0c02f691ea230f5359c4e1de23a7 ""
   "/usr/local/texlive/2025/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def" 1716410060 29785 9f93ab201fe5dd053afcc6c1bcf7d266 ""
@@ -122,9 +125,9 @@
   "TrainVsTest-1.png" 1775268325.08195 94158 225b886b01c2918f4c75ce7f02d8c404 ""
   "TrainVsTest-2.png" 1775268949.35293 108267 75f9cbdfdfd50d77623d69bb9beabcb5 ""
   "acl.sty" 1775166390 11615 e2c027f483aa40e577ed34264c8b0655 ""
-  "acl_latex.aux" 1775271781.51875 7281 29078ec18356737e4ed9004d95de75a0 "pdflatex"
-  "acl_latex.out" 1775271781.51965 1618 014174912a3fe2e5a13faef442b2fc0c "pdflatex"
-  "acl_latex.tex" 1775271684.95214 30635 36d4841d134d8d1a54d59ababe07d817 ""
+  "acl_latex.aux" 1775273309.8687 8175 ea6e8a1aab8eb6a7316fe8d03da62d71 "pdflatex"
+  "acl_latex.out" 1775273309.86954 1618 014174912a3fe2e5a13faef442b2fc0c "pdflatex"
+  "acl_latex.tex" 1775273308.2976 35841 d24d8515d13c393eeff1117c99a45f4c ""
   (generated)
   "acl_latex.aux"
   "acl_latex.log"

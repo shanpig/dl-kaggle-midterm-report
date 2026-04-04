@@ -23,9 +23,9 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Preprocessing-Oriented Ablation Study}{3}{subsection.4.1}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Main Training Progression}{4}{subsection.4.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Prompt Design Analysis}{4}{subsection.4.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5}Results}{5}{section.5}\protected@file@percent }
 \@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Qualitative prompt-analysis examples provided as a separate exploratory study. The examples suggest that prompt restriction can help simple geometric cases while remaining insufficient for more complex semantic compositions.}}{5}{figure.caption.6}\protected@file@percent }
 \newlabel{fig:prompt-analysis}{{6}{5}{Qualitative prompt-analysis examples provided as a separate exploratory study. The examples suggest that prompt restriction can help simple geometric cases while remaining insufficient for more complex semantic compositions}{figure.caption.6}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5}Results}{5}{section.5}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {6}Conclusion}{6}{section.6}\protected@file@percent }
 \@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Short baseline system prompt used in the starter and early 2GPU experiments.}}{7}{table.caption.7}\protected@file@percent }
 \newlabel{tab:prompt-base}{{1}{7}{Short baseline system prompt used in the starter and early 2GPU experiments}{table.caption.7}{}}
@@ -37,4 +37,10 @@
 \newlabel{tab:preprocessing_ablation}{{4}{8}{Isolated preprocessing-oriented ablation study. Prompt, sample count, sequence length, LoRA adapter configuration, and preprocessing strategy were varied to evaluate their effect on Kaggle public score. All runs used Qwen2.5-3B-Instruct on Kaggle NVIDIA T4 $\times $ 2 with \texttt {per\_device\_train\_batch\_size}=1 and \texttt {gradient\_accumulation\_steps}=16}{table.caption.10}{}}
 \@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces Summary of experiment configurations, training platforms, and Kaggle competition submission scores. Here, $r$ denotes LoRA rank, $\alpha $ denotes LoRA scaling factor, LR denotes learning rate, Train BS denotes per-device training batch size, Eval BS denotes per-device evaluation batch size, Grad Accum denotes gradient accumulation steps, and Target Samples denotes the number of training examples used in that experiment. Score (Private) and Score (Public) refer to the private and public leaderboard scores reported by Kaggle for each submission.}}{8}{table.caption.11}\protected@file@percent }
 \newlabel{tab:experiments}{{5}{8}{Summary of experiment configurations, training platforms, and Kaggle competition submission scores. Here, $r$ denotes LoRA rank, $\alpha $ denotes LoRA scaling factor, LR denotes learning rate, Train BS denotes per-device training batch size, Eval BS denotes per-device evaluation batch size, Grad Accum denotes gradient accumulation steps, and Target Samples denotes the number of training examples used in that experiment. Score (Private) and Score (Public) refer to the private and public leaderboard scores reported by Kaggle for each submission}{table.caption.11}{}}
-\gdef \@abspage@last{8}
+\@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces Prompt A used in the preprocessing-oriented ablation study.}}{8}{table.caption.12}\protected@file@percent }
+\newlabel{tab:ablation-prompt-a}{{6}{8}{Prompt A used in the preprocessing-oriented ablation study}{table.caption.12}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {7}{\ignorespaces Prompt B used in the preprocessing-oriented ablation study.}}{9}{table.caption.13}\protected@file@percent }
+\newlabel{tab:ablation-prompt-b}{{7}{9}{Prompt B used in the preprocessing-oriented ablation study}{table.caption.13}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {8}{\ignorespaces Prompt C used in the preprocessing-oriented ablation study.}}{9}{table.caption.14}\protected@file@percent }
+\newlabel{tab:ablation-prompt-c}{{8}{9}{Prompt C used in the preprocessing-oriented ablation study}{table.caption.14}{}}
+\gdef \@abspage@last{9}
