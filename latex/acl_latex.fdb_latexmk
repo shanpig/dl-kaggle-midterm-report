@@ -1,7 +1,7 @@
 # Fdb version 4
-["pdflatex"] 1775268796.13358 "/Users/shanpig/Desktop/留學計畫/NYU/NYU semester 2/ECE-GY 7123 Deep Learning/midterm-project/report/latex/acl_latex.tex" "acl_latex.pdf" "acl_latex" 1775268797.50564 0
-  "../PromptAnalysis.png" 1775268223.59135 25684 c449ce1fe09b2ebdb9031520f0af3a75 ""
-  "/Users/shanpig/Desktop/留學計畫/NYU/NYU semester 2/ECE-GY 7123 Deep Learning/midterm-project/report/latex/acl_latex.tex" 1775268764.40605 25824 f041f82f4c8b89eb219b56cd3e25eb0f ""
+["pdflatex"] 1775268968.31306 "/Users/shanpig/Desktop/留學計畫/NYU/NYU semester 2/ECE-GY 7123 Deep Learning/midterm-project/report/latex/acl_latex.tex" "acl_latex.pdf" "acl_latex" 1775268969.75244 0
+  "../PromptAnalysis.png" 1775268904.26534 25684 c449ce1fe09b2ebdb9031520f0af3a75 ""
+  "/Users/shanpig/Desktop/留學計畫/NYU/NYU semester 2/ECE-GY 7123 Deep Learning/midterm-project/report/latex/acl_latex.tex" 1775268904.28571 25824 f041f82f4c8b89eb219b56cd3e25eb0f ""
   "/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/inconsolata/i4-t1-0.enc" 1558214095 7631 5169ff1acd97ff1c4ab83563c99f96f4 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
@@ -120,11 +120,11 @@
   "Minimization-2.png" 1775268325.0769 56779 99ff72d384d7ef7fafa2ce685a8f76bd ""
   "MinimizationExample.png" 1775268325.08078 539611 f7bd611bcde08b7528bcd800df402298 ""
   "TrainVsTest-1.png" 1775268325.08195 94158 225b886b01c2918f4c75ce7f02d8c404 ""
-  "TrainVsTest-2.png" 1775268325.0832 98016 fddec6ff8308d6cb5f40fd7bbee69f02 ""
+  "TrainVsTest-2.png" 1775268949.35293 108267 75f9cbdfdfd50d77623d69bb9beabcb5 ""
   "acl.sty" 1775166390 11615 e2c027f483aa40e577ed34264c8b0655 ""
-  "acl_latex.aux" 1775268797.43783 7134 d19dbf8b77bb5641dbfc163e5b27f57d "pdflatex"
-  "acl_latex.out" 1775268797.43875 1351 87bbba230eac97dce1920c8ce4ddcd9b "pdflatex"
-  "acl_latex.tex" 1775268764.40605 25824 f041f82f4c8b89eb219b56cd3e25eb0f ""
+  "acl_latex.aux" 1775268969.66709 7134 d19dbf8b77bb5641dbfc163e5b27f57d "pdflatex"
+  "acl_latex.out" 1775268969.66795 1351 87bbba230eac97dce1920c8ce4ddcd9b "pdflatex"
+  "acl_latex.tex" 1775268904.28571 25824 f041f82f4c8b89eb219b56cd3e25eb0f ""
   (generated)
   "acl_latex.aux"
   "acl_latex.log"
