@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.4.3)  3 APR 2026 18:18
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.4.3)  3 APR 2026 22:11
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -433,11 +433,11 @@ Underfull \hbox (badness 2197) in paragraph at lines 62--62
 
 LaTeX Font Info:    Font shape `T1/zi4/m/n' will be
 (Font)              scaled to size 10.95pt on input line 68.
-<TrainVsTest-2.png, id=38, 695.59875pt x 344.03531pt>
+<TrainVsTest-2.png, id=38, 697.10437pt x 345.54094pt>
 File: TrainVsTest-2.png Graphic file (type png)
 <use TrainVsTest-2.png>
 Package pdftex.def Info: TrainVsTest-2.png  used on input line 74.
-(pdftex.def)             Requested size: 218.51521pt x 108.07246pt.
+(pdftex.def)             Requested size: 218.51521pt x 108.31343pt.
 <TrainVsTest-1.png, id=40, 697.8572pt x 344.78813pt>
 File: TrainVsTest-1.png Graphic file (type png)
 <use TrainVsTest-1.png>
@@ -484,7 +484,7 @@ Here is how much of TeX's memory you used:
  1141 hyphenation exceptions out of 8191
  84i,10n,93p,1087b,541s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/lefte/AppData/Local/Programs/MiKTeX/fonts/type1/public/inconsolata/Inconsolata-zi4r.pfb><C:/Users/lefte/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/lefte/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/lefte/AppData/Local/Programs/MiKTeX/fonts/type1/urw/helvetic/uhvb8a.pfb><C:/Users/lefte/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmb8a.pfb><C:/Users/lefte/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmr8a.pfb>
-Output written on acl_latex.pdf (3 pages, 768705 bytes).
+Output written on acl_latex.pdf (3 pages, 775680 bytes).
 PDF statistics:
  111 PDF objects out of 1000 (max. 8388607)
  20 named destinations out of 1000 (max. 500000)
