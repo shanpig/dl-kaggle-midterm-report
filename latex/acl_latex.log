@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.9.4)  3 APR 2026 22:25
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.9.4)  3 APR 2026 22:35
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -440,19 +440,16 @@ File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
 File: Minimization-1.png Graphic file (type png)
 <use Minimization-1.png>
 Package pdftex.def Info: Minimization-1.png  used on input line 120.
-(pdftex.def)             Requested size: 218.51521pt x 162.0592pt.
+(pdftex.def)             Requested size: 182.09486pt x 135.0456pt.
 <Minimization-2.png, id=64, 523.9575pt x 366.61969pt>
 File: Minimization-2.png Graphic file (type png)
 <use Minimization-2.png>
 Package pdftex.def Info: Minimization-2.png  used on input line 132.
 (pdftex.def)             Requested size: 218.51521pt x 152.89395pt.
 
-Underfull \vbox (badness 10000) has occurred while \output is active []
 
-
-
-[2 <./TrainVsTest-2.png> <./TrainVsTest-1.png> <./Minimization-1.png>]
-<MinimizationExample.png, id=77, 2002.48125pt x 1349.04pt>
+[2 <./TrainVsTest-2.png> <./TrainVsTest-1.png> <./Minimization-1.png> <./Minimization-2.png>]
+<MinimizationExample.png, id=79, 2002.48125pt x 1349.04pt>
 File: MinimizationExample.png Graphic file (type png)
 <use MinimizationExample.png>
 Package pdftex.def Info: MinimizationExample.png  used on input line 142.
@@ -460,18 +457,13 @@ Package pdftex.def Info: MinimizationExample.png  used on input line 142.
 
 
 
-Underfull \hbox (badness 1694) in paragraph at lines 171--182
-\T1/ptm/m/n/10.95 (+20) (\T1/zi4/m/n/10.95 adapter_1 \T1/ptm/m/n/10.95 (+20) and \T1/zi4/m/n/10.95 adapter_2\T1/ptm/m/n/10.95 (+20) ) pro-duced pub-lic
- []
-
-
-
-[3 <./Minimization-2.png> <./MinimizationExample.png>]
 Underfull \hbox (badness 3375) in paragraph at lines 205--223
 \T1/ptm/m/n/10.95 (+20) Our ex-per-i-men-ta-tion fol-lowed a staged and
  []
 
 
+
+[3 <./MinimizationExample.png>]
 Underfull \hbox (badness 1769) in paragraph at lines 224--248
 []\T1/ptm/m/n/10.95 (+20) We there-fore shifted to Kag-gle's NVIDIA
  []
@@ -479,12 +471,9 @@ Underfull \hbox (badness 1769) in paragraph at lines 224--248
 
 
 
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-
 
 [4]
-<../PromptAnalysis.png, id=100, 852.18375pt x 364.36125pt>
+<../PromptAnalysis.png, id=103, 852.18375pt x 364.36125pt>
 File: ../PromptAnalysis.png Graphic file (type png)
 <use ../PromptAnalysis.png>
 Package pdftex.def Info: ../PromptAnalysis.png  used on input line 298.
@@ -501,11 +490,11 @@ Package pdftex.def Info: ../PromptAnalysis.png  used on input line 298.
 
 ]
 LaTeX Font Info:    Font shape `T1/zi4/m/n' will be
-(Font)              scaled to size 9.0pt on input line 374.
+(Font)              scaled to size 9.0pt on input line 389.
 LaTeX Font Info:    Font shape `T1/zi4/m/n' will be
-(Font)              scaled to size 10.0pt on input line 427.
+(Font)              scaled to size 10.0pt on input line 442.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 479.
+(Font)              <7> on input line 494.
  [7] [8] (./acl_latex.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
@@ -523,10 +512,10 @@ Here is how much of TeX's memory you used:
  1141 hyphenation exceptions out of 8191
  90i,10n,93p,1118b,502s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/inconsolata/Inconsolata-zi4r.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/times/utmr8a.pfb>
-Output written on acl_latex.pdf (8 pages, 838081 bytes).
+Output written on acl_latex.pdf (8 pages, 838825 bytes).
 PDF statistics:
- 177 PDF objects out of 1000 (max. 8388607)
- 135 compressed objects within 2 object streams
+ 179 PDF objects out of 1000 (max. 8388607)
+ 137 compressed objects within 2 object streams
  33 named destinations out of 1000 (max. 500000)
  49263 words of extra memory for PDF output out of 51595 (max. 10000000)
 

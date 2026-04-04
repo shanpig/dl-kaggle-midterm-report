@@ -117,7 +117,7 @@ Raw SVGs contain redundant metadata, arbitrary spatial dimensions, and high nume
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.48\textwidth]{Minimization-1.png}
+    \includegraphics[width=0.40\textwidth]{Minimization-1.png}
     \caption{Structural representation of the training SVGs in characters before and after minimization and preprocessing pipeline.}
     \label{fig:minimization-1}
 \end{figure}
@@ -153,32 +153,32 @@ four factors: the number of training samples, the prompt template, the LoRA
 hyperparameter preset, and the preprocessing strategy. Unlike the later
 large-scale model and hardware experiments, the goal here was to isolate
 whether data preparation and prompt design materially affected downstream
-performance.
+performance. The full set of configurations evaluated in this study is
+summarized in Table~\ref{tab:preprocessing_ablation}, which compares
+variations in sample count, prompt design, sequence length, LoRA adapter
+configuration, preprocessing strategy, and the resulting public leaderboard
+score.
 
-The strongest signal from this study was the importance of preprocessing
-quality. Under the same prompt and hyperparameter setting (Prompt A with
-\texttt{adapter\_0} on 15{,}000 samples), moving from preprocessing variant A
-to preprocessing variant B improved the public score from 10.49 to 12.23. This
-suggests that the refined preprocessing pipeline improved the learnability of
-the task by reducing token overhead while preserving valid geometric structure.
-By contrast, the earlier preprocessing variant introduced tokenization issues
-and did not provide the same benefit. In that unsuccessful version, character
-minimization was too aggressive: spaces between coordinates and shape
-arguments were heavily removed, which preserved visual rendering but produced
-token sequences that were less aligned with the SVG formatting seen during
-base-model pretraining.
+The study was organized as a sequence of controlled preprocessing variants. We
+first established a baseline setting without additional preprocessing, then
+tested an initial preprocessing variant (variant A), and finally evaluated a
+refined preprocessing variant (variant B). Variant A retained the same overall
+goal of reducing SVG length, but its character minimization was too aggressive:
+spaces between coordinates and shape arguments were heavily removed, which
+preserved visual rendering but altered the token structure more substantially
+than intended. Variant B kept the normalization and compression objectives
+while preserving token patterns that remained closer to conventional SVG
+formatting.
 
-The ablation also indicated that preprocessing interacted with prompt and
-adapter choices. Without preprocessing, smaller adapter settings
-(\texttt{adapter\_1} and \texttt{adapter\_2}) produced public scores of 10.28
-and 10.84, respectively. Once the refined preprocessing pipeline was
-introduced, the higher-capacity \texttt{adapter\_0} configuration became much
-more effective. Additional variations in sample count and prompt design were
-also explored, but these did not consistently outperform the 15{,}000-sample
-configuration with Prompt A, \texttt{adapter\_0}, and preprocessing variant B.
-Based on these results, we adopted the refined preprocessing pipeline as the
-default data preparation strategy for the subsequent experiments reported in
-the rest of this paper.
+In parallel with these preprocessing variants, we also varied prompt template,
+training sample count, sequence length, and LoRA adapter configuration in
+order to test the preprocessing choices under several related settings. These
+configurations provided a focused study of how SVG formatting decisions
+interacted with prompt design and parameter-efficient fine-tuning before we
+committed to the later end-to-end experiment pipeline. The refined
+preprocessing pipeline identified in this stage was then used as the default
+data preparation strategy for the subsequent experiments reported in the rest
+of this paper.
 
 \section{Model Description}
 
@@ -306,7 +306,22 @@ generation.
 \section{Results}
 
 The results in Table~\ref{tab:experiments} show a clear progression across the
-different stages of experimentation. The starter-based AMD runs were stable
+different stages of experimentation. Beyond the later model and hardware
+ablations, the results also support the importance of the earlier dataset
+analysis and preprocessing decisions. The train--test alignment analysis
+suggested that the evaluation set was not strongly out-of-distribution
+relative to the training data, so later gains were more plausibly attributable
+to model, prompt, and data-preparation choices rather than to accidental
+distribution mismatch. Likewise, the preprocessing ablation in
+Table~\ref{tab:preprocessing_ablation} showed that refining the SVG
+normalization and token-reduction pipeline materially improved performance:
+under the same 15{,}000-sample Prompt A and \texttt{adapter\_0}
+configuration, moving from preprocessing variant A to preprocessing variant B
+improved the public score from 10.49 to 12.23. This indicates that making the
+training SVGs more compact and structurally consistent was not merely a data
+cleaning step, but an important contributor to downstream model quality.
+
+The starter-based AMD runs were stable
 but did not show measurable improvement across changes in sequence length,
 LoRA configuration, or training-set size: all five starter variants produced
 the same private score of 8.42524 and public score of 11.11991. This suggests
