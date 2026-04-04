@@ -1,7 +1,6 @@
 # Fdb version 4
-["pdflatex"] 1775273308.61812 "/Users/shanpig/Desktop/留學計畫/NYU/NYU semester 2/ECE-GY 7123 Deep Learning/midterm-project/report/latex/acl_latex.tex" "acl_latex.pdf" "acl_latex" 1775273309.92497 0
+["pdflatex"] 1775274064.79087 "acl_latex.tex" "acl_latex.pdf" "acl_latex" 1775274066.08446 0
   "../PromptAnalysis.png" 1775268904.26534 25684 c449ce1fe09b2ebdb9031520f0af3a75 ""
-  "/Users/shanpig/Desktop/留學計畫/NYU/NYU semester 2/ECE-GY 7123 Deep Learning/midterm-project/report/latex/acl_latex.tex" 1775273308.2976 35841 d24d8515d13c393eeff1117c99a45f4c ""
   "/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/inconsolata/i4-t1-0.enc" 1558214095 7631 5169ff1acd97ff1c4ab83563c99f96f4 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/inconsolata/i4-ts1.enc" 1455745497 9446 fe5580ca6042a44427f18d450942e7d0 ""
@@ -106,6 +105,7 @@
   "/usr/local/texlive/2025/texmf-dist/tex/latex/microtype/mt-cmr.cfg" 1739394495 22906 b0be544692bb405a84d147a96af5d777 ""
   "/usr/local/texlive/2025/texmf-dist/tex/latex/microtype/mt-ptm.cfg" 1739394495 12427 78d94d2b9d095b6021a1cc87fb6d8cd7 ""
   "/usr/local/texlive/2025/texmf-dist/tex/latex/natbib/natbib.sty" 1291685959 45456 1c8843383c0bd05870c45fa0ebea6cc2 ""
+  "/usr/local/texlive/2025/texmf-dist/tex/latex/placeins/placeins.sty" 1137110565 4087 636308456f60d2b31cbf97867db5708d ""
   "/usr/local/texlive/2025/texmf-dist/tex/latex/psnfss/t1ptm.fd" 1137110629 774 61d7da1e9f9e74989b196d147e623736 ""
   "/usr/local/texlive/2025/texmf-dist/tex/latex/psnfss/times.sty" 1586716065 856 8e0e5c8cca7b18e0400f97f5a2b90a99 ""
   "/usr/local/texlive/2025/texmf-dist/tex/latex/psnfss/ts1ptm.fd" 1137110629 619 96f56dc5d1ef1fe1121f1cfeec70ee0c ""
@@ -125,9 +125,9 @@
   "TrainVsTest-1.png" 1775268325.08195 94158 225b886b01c2918f4c75ce7f02d8c404 ""
   "TrainVsTest-2.png" 1775268949.35293 108267 75f9cbdfdfd50d77623d69bb9beabcb5 ""
   "acl.sty" 1775166390 11615 e2c027f483aa40e577ed34264c8b0655 ""
-  "acl_latex.aux" 1775273309.8687 8175 ea6e8a1aab8eb6a7316fe8d03da62d71 "pdflatex"
-  "acl_latex.out" 1775273309.86954 1618 014174912a3fe2e5a13faef442b2fc0c "pdflatex"
-  "acl_latex.tex" 1775273308.2976 35841 d24d8515d13c393eeff1117c99a45f4c ""
+  "acl_latex.aux" 1775274066.02179 8175 f31f52367175d83da0bd42534dbf93a0 "pdflatex"
+  "acl_latex.out" 1775274066.02253 1618 014174912a3fe2e5a13faef442b2fc0c "pdflatex"
+  "acl_latex.tex" 1775274059.62831 36472 0a280e781d47cc6fe6b71debe502f219 ""
   (generated)
   "acl_latex.aux"
   "acl_latex.log"

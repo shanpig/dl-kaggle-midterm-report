@@ -28,6 +28,7 @@
 \usepackage{graphicx}
 \usepackage{url}
 \usepackage{float}
+\usepackage{placeins}
 
 \title{Deep Learning Midterm Project Report}
 
@@ -98,7 +99,11 @@ We verified consistency between the training and testing sets to prevent out-of-
     \label{fig:train_vs_test-1}
 \end{figure}
 
-Structural visual complexity also aligns closely: the training set averages 2.8 XML tags per image, matching the NLP-predicted expectation of 2.87 tags for the test set.
+As shown in Figure~\ref{fig:train_vs_test-1}, the train and test prompt-length
+distributions closely overlap. Structural visual complexity also aligns
+closely: the training set averages 2.8 XML tags per image, matching the
+NLP-predicted expectation of 2.87 tags for the test set in
+Figure~\ref{fig:train_vs_test-2}.
 
 \begin{figure}[htbp]
     \centering
@@ -107,20 +112,14 @@ Structural visual complexity also aligns closely: the training set averages 2.8 
     \label{fig:train_vs_test-2}
 \end{figure}
 
+\FloatBarrier
 \subsection{Preprocessing and Optimization Pipeline}
-Raw SVGs contain redundant metadata, arbitrary spatial dimensions, and high numerical precision that consume excessive tokens. To maximize semantic density while strictly constraining sequences to 8,000 characters and 256 path elements, we applied the following normalization and compression pipeline across the training data used in our experiments:
+Raw SVGs contain redundant metadata, arbitrary spatial dimensions, and high numerical precision that consume excessive tokens. To maximize semantic density while strictly constraining sequences to 8,000 characters and 256 path elements, we applied the following normalization and compression pipeline across the training data used in our experiments. The effects of this pipeline are visualized in Figures~\ref{fig:minimization-1}, \ref{fig:minimization-2}, and \ref{fig:minimization-3}.
 
 \begin{itemize}
     \item \textbf{Dimensional Standardization:} All canvases are mathematically scaled to a uniform $256 \times 256$ coordinate system. The algorithm extracts the original \texttt{viewBox} and proportionally updates all spatial attributes (e.g., \texttt{cx}, \texttt{width}, \texttt{d}) and complex transformation matrices (\texttt{translate}, \texttt{rotate}), establishing a fixed spatial representation for the model.
     \item \textbf{Tag Sanitization:} To prevent hallucination of proprietary metadata, we enforce a strict whitelist of 13 geometric tags (e.g., \texttt{path}, \texttt{rect}, \texttt{g}, \texttt{circle}). Unsupported elements and redundant styling attributes (such as \texttt{filling} and default opacities) are completely discarded.
 \end{itemize}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.40\textwidth]{Minimization-1.png}
-    \caption{Structural representation of the training SVGs in characters before and after minimization and preprocessing pipeline.}
-    \label{fig:minimization-1}
-\end{figure}
 
 \begin{itemize}
     \item \textbf{Token Minification:} Numerical coordinates are aggressively rounded to reduce sequence length, removing decimals for whole numbers and limiting floats to one decimal place (e.g., 12.5). XML headers, newlines, and extraneous whitespace are stripped entirely, flattening the hierarchical tree into a dense, continuous string.
@@ -136,6 +135,13 @@ Raw SVGs contain redundant metadata, arbitrary spatial dimensions, and high nume
 
 Ultimately, these interconnected preprocessing steps heavily constrain the problem space, significantly reducing token overhead while maintaining visual fidelity.
 This structurally sound, token-optimized data allows the model to efficiently learn the highly complex mapping between natural language descriptions and valid geometric code without the need for additional data augmentation.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.34\textwidth]{Minimization-1.png}
+    \caption{Structural representation of the training SVGs in characters before and after minimization and preprocessing pipeline.}
+    \label{fig:minimization-1}
+\end{figure}
 
 \begin{figure}[htbp]
     \centering
@@ -162,7 +168,10 @@ natural fit for later-stage experiments that emphasize structured SVG output.
 We initially evaluated 1.5B, 3B, and 7B parameter models; however, the 7B
 version consistently pushed GPU memory to near out-of-memory limits, so we
 ultimately standardized on 3B and 1.5B models as the best balance between
-capacity and stable training/inference.
+capacity and stable training/inference. The concrete model and LoRA
+configurations used throughout the project are summarized in
+Table~\ref{tab:experiments}. Unless otherwise noted, our parameter-efficient
+adaptation setup follows standard LoRA-style fine-tuning.
 
 \section{Experimentation}
 
@@ -369,7 +378,9 @@ model produced an immediate improvement over the starter baseline. The initial
 8.27318 private and 10.84663 public. The strongest Kaggle result came from the
 prompt-augmented variant, which reached 9.79340 private and 12.23749 public,
 indicating that explicit SVG-oriented instruction formatting contributed
-meaningfully to model behavior. By contrast, the later variant with larger
+meaningfully to model behavior, consistent with the qualitative prompt
+analysis in Figure~\ref{fig:prompt-analysis}. By contrast, the later variant
+with larger
 batch size, higher learning rate, and more epochs did not improve further,
 ending at 9.68681 private and 11.76432 public, which suggests that more
 aggressive optimization alone did not yield additional gains.
