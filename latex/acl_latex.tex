@@ -198,10 +198,10 @@ fine-tuning before we committed to the broader end-to-end training pipeline.
 The refined preprocessing pipeline identified in this stage was then used as
 the default data preparation strategy for the later experiments. In
 particular, the first four rows of Table~\ref{tab:preprocessing_ablation}
-keep Prompt A fixed, allowing the preprocessing variants and adapter settings
-to be compared under a shared prompting setup. This makes that portion of the
-table most relevant to the preprocessing-oriented interpretation of this
-subsection.
+keep Prompt A fixed, allowing the preprocessing variants and LoRA
+configurations to be compared under a shared prompting setup. This makes that
+portion of the table most relevant to the preprocessing-oriented
+interpretation of this subsection.
 
 \subsection{Main Training Progression}
 
@@ -326,11 +326,17 @@ to model, prompt, and data-preparation choices rather than to accidental
 distribution mismatch. Likewise, the preprocessing ablation in
 Table~\ref{tab:preprocessing_ablation} showed that refining the SVG
 normalization and token-reduction pipeline materially improved performance:
-under the same 15{,}000-sample Prompt A and \texttt{adapter\_0}
-configuration, moving from preprocessing variant A to preprocessing variant B
-improved the public score from 10.49 to 12.23. This indicates that making the
-training SVGs more compact and structurally consistent was not merely a data
-cleaning step, but an important contributor to downstream model quality.
+under the same 15{,}000-sample Prompt A and the high-capacity LoRA setting
+($r=64$, $\alpha=128$, seven target modules), moving from preprocessing
+variant A to preprocessing variant B improved the public score from 10.49 to
+12.23. This indicates that making the training SVGs more compact and
+structurally consistent was not merely a data cleaning step, but an important
+contributor to downstream model quality. More broadly,
+Table~\ref{tab:preprocessing_ablation} reflects two complementary findings:
+its earlier rows highlight the importance of stable preprocessing under a
+fixed prompt setting, while its later rows show that prompt formulation
+remained performance-relevant even after the successful preprocessing
+pipeline had been established.
 
 The starter-based AMD runs were stable
 but did not show measurable improvement across changes in sequence length,
