@@ -27,6 +27,7 @@
 % additional package(s)
 \usepackage{graphicx}
 \usepackage{url}
+\usepackage{float}
 
 \title{Deep Learning Midterm Project Report}
 
@@ -61,10 +62,98 @@ performance.\footnote{Code repository: \href{https://github.com/shanpig/dl-kaggl
 
 \section{Dataset}
 
-[TO BE FILLED]
+The dataset utilized in this study comprises paired natural language descriptions and Scalable Vector Graphics (SVG) code. The data is partitioned into a training set of 50,000 records (\texttt{train.csv}), which includes a unique identifier (\texttt{id}), a natural language prompt (\texttt{prompt}), and the ground-truth SVG code (\texttt{svg}). The evaluation set (\texttt{test.csv}) contains 1,000 records featuring only the identifier and prompt, tasking the model with generating the missing SVG format. To ensure robust training within the strict context window limitations of Large Language Models (LLMs), we validated the train-test distributional alignment and applied a deterministic preprocessing pipeline to structurally optimize the data without relying on synthetic augmentation.
+\subsection{Dataset Alignment}
+We verified consistency between the training and testing sets to prevent out-of-distribution evaluation. Textual prompts exhibit highly consistent lengths—averaging 19.79 and 20.14 words for the train and test sets, respectively—and share core vocabulary (e.g., ``black'', ``white'', ``icon'').
 
-We describe the dataset, preprocessing steps, and any augmentation techniques
-applied.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.48\textwidth]{TrainVsTest-2.png}
+    \caption{Comparative analysis of textual distributions between the training and testing datasets.}
+    \label{fig:train_vs_test-1}
+\end{figure}
+
+Structural visual complexity also aligns closely: the training set averages 2.8 XML tags per image, matching the NLP-predicted expectation of 2.87 tags for the test set.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.48\textwidth]{TrainVsTest-1.png}
+    \caption{Comparative analysis of structural distributions between the training and testing datasets.}
+    \label{fig:train_vs_test-2}
+\end{figure}
+
+\subsection{Preprocessing and Optimization Pipeline}
+Raw SVGs contain redundant metadata, arbitrary spatial dimensions, and high numerical precision that consume excessive tokens. To maximize semantic density while strictly constraining sequences to 8,000 characters and 256 path elements, we standardized 20,000 target samples through the following pipeline:
+
+\begin{itemize}
+    \item \textbf{Dimensional Standardization:} All canvases are mathematically scaled to a uniform $256 \times 256$ coordinate system. The algorithm extracts the original \texttt{viewBox} and proportionally updates all spatial attributes (e.g., \texttt{cx}, \texttt{width}, \texttt{d}) and complex transformation matrices (\texttt{translate}, \texttt{rotate}), establishing a fixed spatial representation for the model.
+    \item \textbf{Tag Sanitization:} To prevent hallucination of proprietary metadata, we enforce a strict whitelist of 13 geometric tags (e.g., \texttt{path}, \texttt{rect}, \texttt{g}, \texttt{circle}). Unsupported elements and redundant styling attributes (such as \texttt{filling} and default opacities) are completely discarded.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.48\textwidth]{Minimization-1.png}
+    \caption{Structural representation of the training SVGs in characters before and after minimization and preprocessing pipeline.}
+    \label{fig:minimization-2}
+\end{figure}
+
+\begin{itemize}
+    \item \textbf{Token Minification:} Numerical coordinates are aggressively rounded to reduce sequence length, removing decimals for whole numbers and limiting floats to one decimal place (e.g., 12.5). XML headers, newlines, and extraneous whitespace are stripped entirely, flattening the hierarchical tree into a dense, continuous string.
+    \item \textbf{Formatting:} Tabular features are standardized (renamed to \texttt{prompt} and \texttt{svg}), stripped of invalid XMLs, and formatted for direct compatibility with Hugging Face training libraries.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.48\textwidth]{Minimization-2.png}
+    \caption{Structural representation of the training SVGs in tokens before and after minimization and preprocessing pipeline.}
+    \label{fig:minimization-1}
+\end{figure}
+
+Ultimately, these interconnected preprocessing steps heavily constrain the problem space, significantly reducing token overhead while maintaining visual fidelity.
+This structurally sound, token-optimized data allows the model to efficiently learn the highly complex mapping between natural language descriptions and valid geometric code without the need for additional data augmentation.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.48\textwidth]{MinimizationExample.png}
+    \caption{Visual and code representation of an SVG before and after minimization and preprocessing pipeline.}
+    \label{fig:minimization-3}
+\end{figure}
+
+\subsection{Preprocessing Ablation}
+
+To validate whether the proposed SVG normalization and token-reduction pipeline
+was beneficial in practice, we conducted a separate preprocessing-oriented
+ablation study before finalizing the later model experiments. This study varied
+four factors: the number of training samples, the prompt template, the LoRA
+hyperparameter preset, and the preprocessing strategy. Unlike the later
+large-scale model and hardware experiments, the goal here was to isolate
+whether data preparation and prompt design materially affected downstream
+performance.
+
+The strongest signal from this study was the importance of preprocessing
+quality. Under the same prompt and hyperparameter setting (Prompt A with
+\texttt{adapter\_0} on 15{,}000 samples), moving from preprocessing variant A
+to preprocessing variant B improved the public score from 10.49 to 12.23. This
+suggests that the refined preprocessing pipeline improved the learnability of
+the task by reducing token overhead while preserving valid geometric structure.
+By contrast, the earlier preprocessing variant introduced tokenization issues
+and did not provide the same benefit. In that unsuccessful version, character
+minimization was too aggressive: spaces between coordinates and shape
+arguments were heavily removed, which preserved visual rendering but produced
+token sequences that were less aligned with the SVG formatting seen during
+base-model pretraining.
+
+The ablation also indicated that preprocessing interacted with prompt and
+adapter choices. Without preprocessing, smaller adapter settings
+(\texttt{adapter\_1} and \texttt{adapter\_2}) produced public scores of 10.28
+and 10.84, respectively. Once the refined preprocessing pipeline was
+introduced, the higher-capacity \texttt{adapter\_0} configuration became much
+more effective. Additional variations in sample count and prompt design were
+also explored, but these did not consistently outperform the 15{,}000-sample
+configuration with Prompt A, \texttt{adapter\_0}, and preprocessing variant B.
+Based on these results, we adopted the refined preprocessing pipeline as the
+default data preparation strategy for the subsequent experiments reported in
+the rest of this paper.
 
 \section{Model Description}
 
@@ -234,7 +323,14 @@ targeted experimentation rather than blindly increasing complexity.
 In future work, we would implement better experiment tracking and explore more
 efficient training methods to allow broader exploration of the design space.
 
-\begin{table*}[t]
+\clearpage
+\makeatletter
+\setlength{\@dblfptop}{0pt}
+\setlength{\@dblfpsep}{12pt}
+\setlength{\@dblfpbot}{0pt plus 1fil}
+\makeatother
+
+\begin{table*}[!t]
 \centering
 \begin{minipage}{0.96\textwidth}
 \footnotesize
@@ -248,7 +344,7 @@ experiments.}
 \label{tab:prompt-base}
 \end{table*}
 
-\begin{table*}[t]
+\begin{table*}[!t]
 \centering
 \begin{minipage}{0.96\textwidth}
 \footnotesize
@@ -295,7 +391,7 @@ experiment.}
 \label{tab:prompt}
 \end{table*}
 
-\begin{table*}[t]
+\begin{table*}[!t]
 \centering
 \begin{minipage}{0.96\textwidth}
 \footnotesize
@@ -323,7 +419,31 @@ experiments.}
 \label{tab:prompt-designer}
 \end{table*}
 
-\begin{table*}[t]
+\begin{table*}[!t]
+\centering
+\small
+\begin{tabular}{l l c c c c l c}
+\hline
+Samples & Prompt & Max Seq & $r$ & $\alpha$ & Modules & Preprocessing & Score (Public) \\
+\hline
+15000 & A & 2048 & 8 & 16 & 7 & None & 10.28 \\
+15000 & A & 3072 & 16 & 32 & 4 & None & 10.84 \\
+15000 & A & 2048 & 64 & 128 & 7 & A (tokenization issues) & 10.49 \\
+15000 & A & 2048 & 64 & 128 & 7 & B (success) & 12.23 \\
+20000 & B & 2048 & 64 & 128 & 7 & B (success) & 11.76 \\
+10000 (>2 tags) & C & 1536 & 64 & 128 & 7 & B (success) & 10.10 \\
+\hline
+\end{tabular}
+\caption{Isolated preprocessing-oriented ablation study. Prompt, sample count,
+sequence length, LoRA adapter configuration, and preprocessing strategy were
+varied to evaluate their effect on Kaggle public score. All runs used
+Qwen2.5-3B-Instruct on Kaggle NVIDIA T4 $\times$ 2 with
+\texttt{per\_device\_train\_batch\_size}=1 and
+\texttt{gradient\_accumulation\_steps}=16.}
+\label{tab:preprocessing_ablation}
+\end{table*}
+
+\begin{table*}[!t]
     \centering
     \scriptsize
     \setlength{\tabcolsep}{3pt}
