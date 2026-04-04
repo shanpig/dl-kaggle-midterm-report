@@ -144,42 +144,6 @@ This structurally sound, token-optimized data allows the model to efficiently le
     \label{fig:minimization-3}
 \end{figure}
 
-\subsection{Preprocessing Ablation}
-
-To validate whether the proposed SVG normalization and token-reduction pipeline
-was beneficial in practice, we conducted a separate preprocessing-oriented
-ablation study before finalizing the later model experiments. This study varied
-four factors: the number of training samples, the prompt template, the LoRA
-hyperparameter preset, and the preprocessing strategy. Unlike the later
-large-scale model and hardware experiments, the goal here was to isolate
-whether data preparation and prompt design materially affected downstream
-performance. The full set of configurations evaluated in this study is
-summarized in Table~\ref{tab:preprocessing_ablation}, which compares
-variations in sample count, prompt design, sequence length, LoRA adapter
-configuration, preprocessing strategy, and the resulting public leaderboard
-score.
-
-The study was organized as a sequence of controlled preprocessing variants. We
-first established a baseline setting without additional preprocessing, then
-tested an initial preprocessing variant (variant A), and finally evaluated a
-refined preprocessing variant (variant B). Variant A retained the same overall
-goal of reducing SVG length, but its character minimization was too aggressive:
-spaces between coordinates and shape arguments were heavily removed, which
-preserved visual rendering but altered the token structure more substantially
-than intended. Variant B kept the normalization and compression objectives
-while preserving token patterns that remained closer to conventional SVG
-formatting.
-
-In parallel with these preprocessing variants, we also varied prompt template,
-training sample count, sequence length, and LoRA adapter configuration in
-order to test the preprocessing choices under several related settings. These
-configurations provided a focused study of how SVG formatting decisions
-interacted with prompt design and parameter-efficient fine-tuning before we
-committed to the later end-to-end experiment pipeline. The refined
-preprocessing pipeline identified in this stage was then used as the default
-data preparation strategy for the subsequent experiments reported in the rest
-of this paper.
-
 \section{Model Description}
 
 We build on the Qwen2.5 series as our base model family, which provides
@@ -201,6 +165,40 @@ ultimately standardized on 3B and 1.5B models as the best balance between
 capacity and stable training/inference.
 
 \section{Experimentation}
+
+\subsection{Preprocessing-Oriented Ablation Study}
+
+Before the later large-scale model and hardware experiments, we conducted a
+preprocessing-oriented ablation study to screen several design choices related
+to data preparation, prompt structure, sequence length, and parameter-efficient
+fine-tuning. The goal of this phase was not to fully optimize the final
+system, but to identify a stable and reasonable configuration for subsequent
+experiments. The full set of configurations evaluated in this stage is
+summarized in Table~\ref{tab:preprocessing_ablation}, which compares
+variations in sample count, prompt design, sequence length, LoRA adapter
+configuration, preprocessing strategy, and public leaderboard score.
+
+This early study was organized as a sequence of controlled preprocessing
+variants. We first established a baseline setting without additional
+preprocessing, then tested an initial preprocessing variant (variant A), and
+finally evaluated a refined preprocessing variant (variant B). Variant A
+retained the same overall goal of reducing SVG length, but its character
+minimization was too aggressive: spaces between coordinates and shape
+arguments were heavily removed, which preserved visual rendering but altered
+the token structure more substantially than intended. Variant B kept the
+normalization and compression objectives while preserving token patterns that
+remained closer to conventional SVG formatting.
+
+In parallel with these preprocessing variants, we also varied prompt
+template, training sample count, sequence length, and LoRA adapter
+configuration in order to test the preprocessing choices under several related
+settings. This stage therefore served as an early screening experiment for how
+SVG formatting decisions interacted with prompt design and parameter-efficient
+fine-tuning before we committed to the broader end-to-end training pipeline.
+The refined preprocessing pipeline identified in this stage was then used as
+the default data preparation strategy for the later experiments.
+
+\subsection{Main Training Progression}
 
 Our experimentation followed a staged and hypothesis-driven progression. We
 began with the official starter implementation and first modified it so that
@@ -268,16 +266,16 @@ out-of-memory interruptions.
 
 \subsection{Prompt Design Analysis}
 
-In addition to the main training experiments, we conducted a prompt design
-analysis to better understand how different system-prompt formulations affect
-SVG generation behavior. While these prompt families were also used in the
-main training progression, we analyze them here as a separate design dimension
-in order to isolate the qualitative effect of prompt strictness and structure.
-We compared three prompt families: a short baseline prompt used in the starter
-and early 2GPU runs, a stricter SVG-rule prompt that explicitly enumerated
-formatting and tag constraints, and a later compacted designer-oriented prompt
-that retained the most important structural constraints while reducing prompt
-length.
+Alongside the early ablation study and the main training progression, we also
+conducted a prompt design analysis to better understand how different
+system-prompt formulations affect SVG generation behavior. While these prompt
+families were also used in the main training progression, we analyze them here
+as a separate design dimension in order to isolate the qualitative effect of
+prompt strictness and structure. We compared three prompt families: a short
+baseline prompt used in the starter and early 2GPU runs, a stricter SVG-rule
+prompt that explicitly enumerated formatting and tag constraints, and a later
+compacted designer-oriented prompt that retained the most important structural
+constraints while reducing prompt length.
 
 The qualitative examples from this study, shown in
 Figure~\ref{fig:prompt-analysis}, suggest that some degree of restriction is
