@@ -196,7 +196,12 @@ settings. This stage therefore served as an early screening experiment for how
 SVG formatting decisions interacted with prompt design and parameter-efficient
 fine-tuning before we committed to the broader end-to-end training pipeline.
 The refined preprocessing pipeline identified in this stage was then used as
-the default data preparation strategy for the later experiments.
+the default data preparation strategy for the later experiments. In
+particular, the first four rows of Table~\ref{tab:preprocessing_ablation}
+keep Prompt A fixed, allowing the preprocessing variants and adapter settings
+to be compared under a shared prompting setup. This makes that portion of the
+table most relevant to the preprocessing-oriented interpretation of this
+subsection.
 
 \subsection{Main Training Progression}
 
@@ -276,6 +281,14 @@ baseline prompt used in the starter and early 2GPU runs, a stricter SVG-rule
 prompt that explicitly enumerated formatting and tag constraints, and a later
 compacted designer-oriented prompt that retained the most important structural
 constraints while reducing prompt length.
+
+This interpretation is also supported by the later rows of
+Table~\ref{tab:preprocessing_ablation}. After the successful preprocessing
+pipeline (variant B) had been established, the remaining configurations varied
+prompt formulation alongside related settings such as sample count and context
+length. These rows are therefore not a pure prompt-only ablation, but they do
+show that prompt design remained an important experimental axis once
+preprocessing had been stabilized.
 
 The qualitative examples from this study, shown in
 Figure~\ref{fig:prompt-analysis}, suggest that some degree of restriction is
