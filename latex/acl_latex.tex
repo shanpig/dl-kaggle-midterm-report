@@ -43,22 +43,47 @@
 \maketitle
 
 \begin{abstract}
-This report presents our approach to a deep learning task using modern neural
-network methods. We focus on building a competitive model under practical
-training-time constraints, compare multiple configurations, and summarize the
-design and optimization choices that contributed most to performance.
+We study text-to-SVG generation as a structured sequence modeling problem in
+which a model must map natural language descriptions to valid, compact SVG
+markup. Our approach combines dataset analysis, SVG preprocessing, prompt
+design, and iterative model ablations under practical hardware constraints. We
+evaluate multiple configurations across AMD MI100 and Kaggle NVIDIA T4
+environments, spanning Qwen2.5 instruction-tuned and coder-specialized model
+variants, different context lengths, LoRA settings, and training data scales.
+The strongest configuration uses Qwen2.5-Coder-3B-Instruct with a 3072-token
+context window and achieves 10.77991 on the private leaderboard and 13.11993
+on the public leaderboard. Our results suggest that preprocessing quality,
+task-aligned prompting, and selecting a model family suited to code-like
+generation were more important than simply scaling baseline hyperparameters in
+isolation.
 \end{abstract}
 
 \section{Introduction}
 
-This project focuses on solving a deep learning task using modern neural network
-approaches. The goal is to build a model that achieves strong performance on
-the given dataset while exploring different architectural and training choices.
+This project studies the task of generating Scalable Vector Graphics (SVG)
+from natural language descriptions. Unlike unconstrained text generation, this
+problem requires the model to satisfy both semantic and structural objectives:
+it must capture the user intent in the prompt while also producing valid SVG
+code with appropriate tags, attributes, geometry, and formatting. As a
+result, the task sits at the intersection of language understanding, code-like
+generation, and structured output modeling.
 
-Due to the computational cost of training, we emphasize iterative
-experimentation and practical improvements over exhaustive search. We evaluate
-different configurations and analyze what contributes most to
-performance.\footnote{Code repository: \href{https://github.com/shanpig/dl-kaggle-midterm}{GitHub repository}.}\footnote{Model weights: \href{https://github.com/shanpig/dl-kaggle-midterm/tree/main/adapter}{GitHub adapter link}.}\footnote{We used GPT and Cursor for implementation, debugging, learning, report drafting, and proofreading.}
+Our goal was to build a model that performs well on the competition benchmark
+while understanding which design choices contribute most to performance. We
+therefore approached the project as a sequence of targeted ablations rather
+than an exhaustive hyperparameter search. In particular, we investigated the
+effects of SVG preprocessing, prompt design, model family, sequence length,
+LoRA configuration, and training data scale. These experiments were carried
+out under practical hardware constraints across both AMD MI100 and Kaggle
+NVIDIA T4 environments, which made memory efficiency and training stability
+important design considerations throughout the project.
+
+The remainder of this report is organized as follows. We first describe the
+dataset and the preprocessing pipeline used to normalize and compress SVG
+examples. We then present the model configurations and the staged
+experimentation process, including a separate prompt-design analysis and a
+preprocessing ablation study. Finally, we summarize the leaderboard results
+and discuss the main factors that led to the best-performing setup.\footnote{Code repository: \href{https://github.com/shanpig/dl-kaggle-midterm}{GitHub repository}.}\footnote{Model weights: \href{https://github.com/shanpig/dl-kaggle-midterm/tree/main/adapter}{GitHub adapter link}.}\footnote{We used GPT and Cursor for implementation, debugging, learning, report drafting, and proofreading.}
 
 \section{Dataset}
 
@@ -83,7 +108,7 @@ Structural visual complexity also aligns closely: the training set averages 2.8 
 \end{figure}
 
 \subsection{Preprocessing and Optimization Pipeline}
-Raw SVGs contain redundant metadata, arbitrary spatial dimensions, and high numerical precision that consume excessive tokens. To maximize semantic density while strictly constraining sequences to 8,000 characters and 256 path elements, we standardized 20,000 target samples through the following pipeline:
+Raw SVGs contain redundant metadata, arbitrary spatial dimensions, and high numerical precision that consume excessive tokens. To maximize semantic density while strictly constraining sequences to 8,000 characters and 256 path elements, we applied the following normalization and compression pipeline across the training data used in our experiments:
 
 \begin{itemize}
     \item \textbf{Dimensional Standardization:} All canvases are mathematically scaled to a uniform $256 \times 256$ coordinate system. The algorithm extracts the original \texttt{viewBox} and proportionally updates all spatial attributes (e.g., \texttt{cx}, \texttt{width}, \texttt{d}) and complex transformation matrices (\texttt{translate}, \texttt{rotate}), establishing a fixed spatial representation for the model.
@@ -94,7 +119,7 @@ Raw SVGs contain redundant metadata, arbitrary spatial dimensions, and high nume
     \centering
     \includegraphics[width=0.48\textwidth]{Minimization-1.png}
     \caption{Structural representation of the training SVGs in characters before and after minimization and preprocessing pipeline.}
-    \label{fig:minimization-2}
+    \label{fig:minimization-1}
 \end{figure}
 
 \begin{itemize}
@@ -106,7 +131,7 @@ Raw SVGs contain redundant metadata, arbitrary spatial dimensions, and high nume
     \centering
     \includegraphics[width=0.48\textwidth]{Minimization-2.png}
     \caption{Structural representation of the training SVGs in tokens before and after minimization and preprocessing pipeline.}
-    \label{fig:minimization-1}
+    \label{fig:minimization-2}
 \end{figure}
 
 Ultimately, these interconnected preprocessing steps heavily constrain the problem space, significantly reducing token overhead while maintaining visual fidelity.
@@ -197,15 +222,16 @@ risk of out-of-memory failures during validation, which we observed
 frequently when larger evaluation batches were used on the AMD platform.
 
 We therefore shifted to Kaggle's NVIDIA T4~$\times$~2 environment and moved to
-the Unsloth 3B model family. In this phase, we used 4-bit loading so that the
-larger 3B models would remain trainable within the memory limits of the hosted
-GPUs while reducing the risk of out-of-memory failures. Starting from an
-initial 3B configuration, we increased LoRA rank and per-device batch size to
-better utilize the available GPU resources and improve training throughput. We
-then introduced a more explicit system prompt containing SVG-specific rules to
-test whether stronger task guidance improved both training behavior and
-inference quality. For reference, Table~\ref{tab:prompt} shows the system
-prompt used in the \texttt{2gpu-version-batch2-with-prompt} experiment.
+the Qwen2.5-3B-Instruct model family using the Unsloth training stack. In this
+phase, we used 4-bit loading so that the larger 3B models would remain
+trainable within the memory limits of the hosted GPUs while reducing the risk
+of out-of-memory failures. Starting from an initial 3B configuration, we
+increased LoRA rank and per-device batch size to better utilize the available
+GPU resources and improve training throughput. We then introduced a more
+explicit system prompt containing SVG-specific rules to test whether stronger
+task guidance improved both training behavior and inference quality. For
+reference, Table~\ref{tab:prompt} shows the system prompt used in the
+\texttt{2gpu-version-batch2-with-prompt} experiment.
 After introducing this prompt-guided variant, we further increased the
 per-device batch size, doubled the learning rate, and doubled the number of
 training epochs in order to test a more aggressive optimization setup while
@@ -242,15 +268,16 @@ out-of-memory interruptions.
 
 \subsection{Prompt Design Analysis}
 
-In addition to the main training experiments, we conducted a separate prompt
-design study to understand how different system-prompt formulations affect SVG
-generation behavior. This study was performed independently from the main
-training progression and treated prompt engineering as an isolated design
-dimension. We compared three prompt families: a short baseline prompt used in
-the starter and early 2GPU runs, a stricter SVG-rule prompt that explicitly
-enumerated formatting and tag constraints, and a later compacted
-designer-oriented prompt that retained the most important structural
-constraints while reducing prompt length.
+In addition to the main training experiments, we conducted a prompt design
+analysis to better understand how different system-prompt formulations affect
+SVG generation behavior. While these prompt families were also used in the
+main training progression, we analyze them here as a separate design dimension
+in order to isolate the qualitative effect of prompt strictness and structure.
+We compared three prompt families: a short baseline prompt used in the starter
+and early 2GPU runs, a stricter SVG-rule prompt that explicitly enumerated
+formatting and tag constraints, and a later compacted designer-oriented prompt
+that retained the most important structural constraints while reducing prompt
+length.
 
 The qualitative examples from this study, shown in
 Figure~\ref{fig:prompt-analysis}, suggest that some degree of restriction is
@@ -309,19 +336,29 @@ with longer context and a higher-capacity training setup.
 
 \section{Conclusion}
 
-In this project, we explored different modeling approaches and training
-strategies to improve performance on the task.
+In this project, we treated text-to-SVG generation as a structured generation
+task in which data preparation, prompt design, and model choice were tightly
+coupled. Our experiments showed that better performance did not come from
+blindly increasing scale alone. Instead, the most meaningful improvements came
+from first refining the preprocessing pipeline, then improving prompt
+guidance, and finally moving to a coder-specialized 3B model with longer
+context and a more suitable training setup.
 
-We found that careful tuning of hyperparameters and iterative experimentation
-were key to achieving better results. However, training time posed a
-significant constraint, limiting the number of experiments that could be
-conducted.
+Two lessons were especially important. First, preprocessing quality mattered
+substantially: aggressive character minimization that distorted token patterns
+hurt learnability, whereas a refined normalization and token-reduction
+pipeline improved downstream performance. Second, the task benefited from a
+model and prompt configuration that treated SVG as structured markup rather
+than ordinary natural language. This explains why the final
+Qwen2.5-Coder-3B-Instruct configuration with a 3072-token context window
+produced the strongest overall result.
 
-Some approaches did not lead to improvements, highlighting the importance of
-targeted experimentation rather than blindly increasing complexity.
-
-In future work, we would implement better experiment tracking and explore more
-efficient training methods to allow broader exploration of the design space.
+Training time and hardware limits remained major constraints throughout the
+project, especially when moving between AMD and Kaggle environments or testing
+larger model variants. In future work, we would improve experiment tracking,
+evaluate additional data-filtering strategies, and explore more efficient or
+higher-capacity training approaches that preserve the structural validity of
+SVG outputs while allowing broader exploration of the model design space.
 
 \clearpage
 \makeatletter
